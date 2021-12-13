@@ -1,0 +1,9 @@
+#!/bin/sh -efu
+
+for s in sshd gpm consolelocker chronyd powertop apt-get-update lxd rsyncd.socket; do
+	systemctl enable "$s"
+done
+
+for s in geoclue lvm2-monitor wpa_supplicant; do
+	systemctl mask "$s"
+done

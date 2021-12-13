@@ -1,0 +1,9 @@
+Important:
+  basesystem
+Required:
+  apt
+  systemd-sysvinit
+  openssh-server
+Standard:
+  altlinux-release-sisyphus
+  postfix

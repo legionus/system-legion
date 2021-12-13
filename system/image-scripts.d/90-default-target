@@ -1,0 +1,3 @@
+#!/bin/sh -efu
+
+systemctl set-default multi-user.target

@@ -1,0 +1,15 @@
+#rpm http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus x86_64 classic
+#rpm http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus noarch classic
+#rpm http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus x86_64-i586 classic
+
+#rpm [alt] http://ftp.altlinux.org/pub/distributions/archive/sisyphus/release/latest x86_64 classic debuginfo
+#rpm [alt] http://ftp.altlinux.org/pub/distributions/archive/sisyphus/release/latest x86_64-i586 classic
+#rpm [alt] http://ftp.altlinux.org/pub/distributions/archive/sisyphus/release/latest noarch classic
+
+#rpm [alt] http://ftp.altlinux.org/pub/distributions/archive/sisyphus/task/archive/_275/282389 x86_64 classic
+#rpm [alt] http://ftp.altlinux.org/pub/distributions/archive/sisyphus/task/archive/_275/282389 x86_64-i586 classic
+#rpm [alt] http://ftp.altlinux.org/pub/distributions/archive/sisyphus/task/archive/_275/282389 noarch classic
+
+rpm file:///ALT/Sisyphus x86_64 classic
+rpm file:///ALT/Sisyphus noarch classic
+rpm file:///ALT/Sisyphus x86_64-i586 classic

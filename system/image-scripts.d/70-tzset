@@ -1,0 +1,3 @@
+#!/bin/sh -efu
+
+/etc/init.d/clock tzset

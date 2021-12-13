@@ -1,0 +1,25 @@
+#!/bin/sh -efu
+
+#default_groups="cdwriter cdrom audio video proc radio floppy uucp wheel camera xgrp scanner"
+for g in camera xgrp scanner; do
+	groupadd -f -r "$g"
+done
+
+for u in gleb doppel; do
+	! id "$u" >/dev/null 2>&1 || exit 1
+	useradd "$u"
+	mkdir -p /home/"$u"
+	chmod 0000 /home/"$u"
+	mkdir -p /var/lib/systemd/linger
+	touch /var/lib/systemd/linger/"$u"
+
+	hasher-useradd "$u"
+done
+
+for g in users lxd uucp proc wheel; do
+	gpasswd -a gleb "$g"
+done
+
+for g in users audio camera; do
+	gpasswd -a doppel "$g"
+done

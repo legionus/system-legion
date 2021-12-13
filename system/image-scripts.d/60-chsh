@@ -1,0 +1,5 @@
+#!/bin/sh -efu
+
+chsh -s /bin/zsh gleb
+chsh -s /bin/zsh doppel
+chsh -s /bin/zsh root

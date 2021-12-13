@@ -1,0 +1,5 @@
+rpm file:///ALT/Sisyphus x86_64 classic
+rpm file:///ALT/Sisyphus noarch classic
+rpm file:///ALT/Sisyphus x86_64-i586 classic
+
+rpm file:///home/gleb repo_local/x86_64 addon overlay

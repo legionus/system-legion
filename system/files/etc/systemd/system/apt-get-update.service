@@ -1,0 +1,12 @@
+[Unit]
+Description=Run apt-get update on startup
+After=local-fs.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment='LC_ALL=C.UTF-8'
+ExecStart=apt-get update
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+#!/bin/sh -efu
+
+export SOURCE_DATE_EPOCH="$(cat /.SOURCE_DATE_EPOCH)"
+
+run-parts /etc/firsttime.d
+rm -f /etc/firsttime.flag

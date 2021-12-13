@@ -1,0 +1,5 @@
+--- a/etc/cron.d/consolelocker
++++ b/etc/cron.d/consolelocker
+@@ -1 +1 @@
+-*/45	*	*	*	*	root	/usr/libexec/consolelocker/consolelock.pam-console
++#*/45	*	*	*	*	root	/usr/libexec/consolelocker/consolelock.pam-console

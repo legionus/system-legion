@@ -1,0 +1,58 @@
+#!/bin/ash -efu
+#
+# mki-image-patches
+#
+# Copyright (C) 2021  Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>
+#
+# This file is covered by the GNU General Public License,
+# which should be included with mkimage as the file COPYING.
+#
+
+. "$TOOLSDIR"/mki-sh-functions
+. shell-quote
+
+verbose "has started executing."
+
+patchesdir="${MKI_IMAGE_PATCHDIR:?Patches directory required}"
+
+if [ ! -d "$patchesdir" ]; then
+	verbose "$patchesdir: not found ... ignoring!"
+	exit 0
+fi
+
+[ -d "$chroot" ] ||
+	fatal "$dir: not look like a work directory of hasher."
+
+imgsubdir="${MKI_IMAGESUBDIR:-}"
+imgsubdir="${imgsubdir#/}"
+
+mki-install patch ||
+	fatal "failed to install patch package."
+
+make_exec "$chroot/.host/start.sh" <<EOF
+#!/bin/sh -efu
+
+imgdir=/.image
+[ -z '$imgsubdir' ] || [ ! -d '/.image/$imgsubdir' ] ||
+        imgdir='/.image/$imgsubdir'
+cd "\$imgdir"
+
+patch -p1 --merge 2>/dev/null
+EOF
+
+find "$patchesdir/" -mindepth 1 -maxdepth 1 -type f -o -type l |
+	sort -n |
+while read patch; do
+	case "$patch" in
+		*~|*.bak|*.rpmnew|*.rpmsave) continue ;;
+	esac
+
+	verbose "Applying: \`$patch'"
+
+	cat "$patch" |
+		mki-run "/.host/start.sh" ||
+			fatal "$patch: unable to apply patch."
+done
+
+cd "$chroot/.host"
+rm -f -- "start.sh"

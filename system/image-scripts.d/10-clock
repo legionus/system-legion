@@ -1,0 +1,13 @@
+#!/bin/sh -efu
+
+TZ=Europe/Moscow
+
+ZONE=/usr/share/zoneinfo/"$TZ"
+
+[ -s "$ZONE" ] || {
+	echo "$ZONE does not exist" >&2
+	exit 1
+}
+
+rm -f /etc/localtime
+ln -snr "$ZONE" /etc/localtime

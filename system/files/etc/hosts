@@ -1,0 +1,13 @@
+10.128.2.60	epyc0.mskdc.altlinux.org epyc0
+10.128.2.61	epyc1.mskdc.altlinux.org epyc1
+10.128.2.62	epyc2.mskdc.altlinux.org epyc2
+10.128.2.63	epyc3.mskdc.altlinux.org epyc3
+10.128.2.80	briareos.mskdc.altlinux.org briareos
+10.128.2.95	shaitan.mskdc.altlinux.org shaitan
+10.128.2.96	iblis.mskdc.altlinux.org iblis
+10.128.2.100	pegasus0.mskdc.altlinux.org pegasus0
+10.128.2.101	pegasus1.mskdc.altlinux.org pegasus1
+10.128.2.102	pegasus2.mskdc.altlinux.org pegasus2
+10.128.2.103	pegasus3.mskdc.altlinux.org pegasus3
+
+127.0.0.1	localhost.localdomain localhost
