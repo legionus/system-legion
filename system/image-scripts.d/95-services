@@ -1,6 +1,6 @@
 #!/bin/sh -efu
 
-for s in sshd gpm consolelocker chronyd powertop apt-get-update lxd rsyncd.socket; do
+for s in sshd gpm consolelocker chronyd powertop apt-get-update lxd rsyncd.socket burp-server; do
 	systemctl enable "$s"
 done
 
