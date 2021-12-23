@@ -9,5 +9,3 @@ ln -s /tmp /var/tmp
 
 rm -rf /root
 ln -s home/root /root
-
-chmod 0000 /var/spool/burp
