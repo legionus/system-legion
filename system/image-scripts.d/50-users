@@ -16,6 +16,10 @@ for u in gleb doppel; do
 	hasher-useradd "$u"
 done
 
+for u in gleb doppel; do
+	hasher-useradd "${u}_b"
+done
+
 for g in users lxd uucp proc wheel; do
 	gpasswd -a gleb "$g"
 done
