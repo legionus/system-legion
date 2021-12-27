@@ -46,7 +46,6 @@ fonts-ttf-roboto
 fossology-nomos
 gcc-c++
 gcc-plugin-devel
-gear
 git
 git-doc
 git-email
@@ -57,7 +56,6 @@ guvcview
 gxkb
 gzip-utils
 hardlink
-hasher
 hdparm
 hunspell-en
 hunspell-ru-lebedev
@@ -119,10 +117,6 @@ qemu-ui-gtk
 qemu-ui-sdl
 qemu-user-static
 redshift
-rpm-build-xdg
-rpm-macros-alterator
-rpm-macros-cmake
-rpmrebuild
 rsync-server
 screen
 scrot
@@ -175,6 +169,15 @@ xsane
 xwininfo
 zip
 zsh
+
+# pkg devel
+hasherd
+gear
+hasher
+rpm-build-xdg
+rpm-macros-alterator
+rpm-macros-cmake
+rpmrebuild
 
 lxd
 ebtables
