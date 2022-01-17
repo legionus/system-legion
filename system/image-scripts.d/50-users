@@ -20,10 +20,15 @@ for u in gleb doppel; do
 	hasher-useradd "${u}_b"
 done
 
-for g in users lxd uucp proc wheel; do
+for g in users xgrp; do
+	gpasswd -a gleb "$g"
+	gpasswd -a doppel "$g"
+done
+
+for g in lxd netadmin proc uucp wheel; do
 	gpasswd -a gleb "$g"
 done
 
-for g in users audio camera; do
+for g in audio camera; do
 	gpasswd -a doppel "$g"
 done

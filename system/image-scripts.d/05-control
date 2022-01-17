@@ -1,0 +1,54 @@
+#!/bin/sh -eu
+
+export LC_ALL=C
+
+facilities=
+CTRL() {
+	local facility="$1"; shift
+	local state="$1"; shift
+	control "$facility" "$state"
+	facilities="$facilities $facility"
+}
+
+for facility in at chage chfn chsh crontab fusermount gpasswd groupmems newgidmap newuidmap newgrp write; do
+	CTRL "$facility" restricted
+done
+
+CTRL chrony client
+CTRL postfix local
+CTRL postqueue mailadm
+
+CTRL kvm vmusers
+CTRL lxc-user-nic vmusers
+
+CTRL mount unprivileged
+
+CTRL passwdqc-enforce everyone
+
+CTRL ping netadmin
+
+CTRL sftp disabled
+CTRL sshd-allow-groups enabled
+CTRL sshd-password-auth disabled
+
+CTRL su wheelonly
+
+CTRL pam_access disabled
+CTRL pam_mktemp enabled
+CTRL passwd tcb
+CTRL system-auth local
+CTRL system-policy local
+CTRL tcb_chkpwd tcb
+
+CTRL xorg-server xgrp
+
+cd /etc/control.d/facilities/
+
+for f in *; do
+	for ff in $facilities; do
+		[ "$f" != "$ff" ] ||
+			continue 2
+	done
+	echo "${0##*/} $f facility is not covered" >&2
+	exit 1
+done
