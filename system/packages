@@ -163,7 +163,6 @@ xorg-drv-intel
 xorg-drv-libinput
 xorg-drv-synaptics
 xorg-utils
-xsane
 xwininfo
 zip
 zsh
