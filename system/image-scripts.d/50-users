@@ -1,7 +1,7 @@
 #!/bin/sh -efu
 
 #default_groups="cdwriter cdrom audio video proc radio floppy uucp wheel camera xgrp scanner"
-for g in camera xgrp scanner; do
+for g in adbusers camera scanner xgrp; do
 	groupadd -f -r "$g"
 done
 
@@ -25,7 +25,7 @@ for g in users xgrp; do
 	gpasswd -a doppel "$g"
 done
 
-for g in lxd netadmin proc uucp wheel; do
+for g in adbusers lxd netadmin proc uucp wheel; do
 	gpasswd -a gleb "$g"
 done
 
