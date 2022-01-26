@@ -191,3 +191,9 @@ xorg-drv-libinput
 xorg-drv-synaptics
 xorg-utils
 xwininfo
+
+# unwanted
+cracklib-
+hasher-priv-
+polkit-
+wget-
