@@ -68,6 +68,7 @@ kpartx
 lftp
 libXft-devel
 libXinerama-devel
+libxkbfile-devel
 lm_sensors3
 lshw
 lsof
