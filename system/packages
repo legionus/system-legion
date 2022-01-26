@@ -9,7 +9,6 @@ arandr
 ash
 atril-gtk
 bind-utils
-bpython3
 bridge-utils
 bsdtar
 btcat
@@ -18,7 +17,6 @@ consolelocker
 dhcp-server
 dhcpcd
 dmenu
-dosbox
 dwm
 e2fsprogs
 eject
@@ -82,13 +80,9 @@ minicom
 mkimage
 mplayer
 msmtp
-net-tools
 netcat
 netlist
-nss-utils
-nvidia-settings
 openresolv
-opensc
 openssh
 openssh-blacklist
 openssh-server
@@ -99,11 +93,9 @@ passwordsafe
 patch
 patchutils
 pavucontrol
-pcsc-lite-ccid
 perl-LWP-Protocol-https
 pidgin
 pinentry-gtk2
-pm-utils
 powertop
 ptmax
 pulseaudio-utils
@@ -130,7 +122,6 @@ socat
 systemd
 systemd-analyze
 systemd-settings-disable-kill-user-processes
-sysvinit-initramfs
 tcpdump
 telnet
 terminfo-extra
@@ -177,7 +168,6 @@ rpm-macros-cmake
 rpmrebuild
 
 lxd
-ebtables
 
 strace
 gdb
