@@ -33,6 +33,7 @@ usbutils
 zip
 
 # cli
+schedutils
 vim-console
 vim-enhanced
 vim-plugin-spec_alt-ftplugin
