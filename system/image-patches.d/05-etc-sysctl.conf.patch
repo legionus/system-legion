@@ -19,8 +19,8 @@ diff --git a/etc/sysctl.d/99-sysctl.conf b/etc/sysctl.d/99-sysctl.conf
 +# ... but enable on lo for now.
 +net.ipv6.conf.lo.disable_ipv6 = 0
 +
-+# XXX Disable module autoloading.
-+# kernel.modprobe = /
++# Disable module autoloading.
++kernel.modprobe = /
 +
 +# Change ttl+=1 in case your mobile provider forbids tethering.
 +# Shouldn't hurt anyway.
