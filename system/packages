@@ -72,7 +72,6 @@ systemd
 systemd-analyze
 systemd-settings-disable-kill-user-processes
 tzdata
-udev-rule-generator-net
 zsh
 
 # system network
