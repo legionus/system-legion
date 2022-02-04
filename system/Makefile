@@ -17,7 +17,7 @@ DATE = $(shell date +%Y%m%d)
 IMAGE_NAME = system-$(DATE)
 
 MKI_HANDLER = $(CURDIR)/pack.sh
-EXCLUDES=!/proc:!/var/lib/rpm/__db*
+EXCLUDES=!/proc
 MKI_PACK_RESULTS = custom:$(IMAGE_NAME):$(MKI_HANDLER):$(EXCLUDES)
 
 IMAGE_PACKAGES = ./packages
