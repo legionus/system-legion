@@ -18,7 +18,6 @@ lm_sensors3
 lshw
 lsof
 msmtp
-openresolv
 openssl-engines
 passwdqc-utils
 passwordsafe
@@ -75,11 +74,10 @@ tzdata
 zsh
 
 # system network
+systemd-networkd
 bridge-utils
 dhcp-server
 dhcpcd
-etcnet
-etcnet-defaults-server
 iw
 openvpn
 wpa_supplicant
