@@ -36,7 +36,7 @@ fi
 [ "$#" = 0 ] ||
 	fatal 'too many arguments'
 
-[ -d /sys/class/net/"$ifname" ] ||
+[ -z "$ifname" ] || [ -d /sys/class/net/"$ifname" ] ||
 	fatal "$ifname does not exist"
 
 do_wifi() {
@@ -54,6 +54,13 @@ do_wifi() {
 	systemctl "$startstop" "$service"
 }
 
+do_virtual() {
+	local ifname="$1"; shift
+	local service=openvpn-client@"$ifname".service
+
+	systemctl "$startstop" "$service"
+}
+
 if [ "$startstop" = start ]; then
 	systemctl "$startstop" systemd-networkd.service
 fi
@@ -63,9 +70,13 @@ case "$ifname"  in
 		networkctl "$updown" "$ifname"
 		do_wifi "$ifname" "$subconf"
 		;;
+	'')
+		do_virtual "$subconf"
+		;;
 	*)
 		networkctl "$updown" "$ifname"
 		;;
 esac
 
-systemctl "$startstop" systemd-resolved.service
+[ -z "$ifname" ] ||
+	systemctl "$startstop" systemd-resolved.service
