@@ -1,4 +1,4 @@
-#!/bin/sh -efux
+#!/bin/sh -efu
 
 # SC2250: Prefer putting braces around variable references even when not strictly required.
 # SC2039: In POSIX sh, brace expansion is undefined.
