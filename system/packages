@@ -49,6 +49,7 @@ apt-rsync
 apt-scripts
 chrony
 consolelocker
+firmware-alsa-sof
 firmware-linux
 gpm
 interactivesystem
