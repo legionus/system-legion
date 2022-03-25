@@ -11,9 +11,9 @@ args=
 [ ! -f .fakedata ] || args="$args --exclude .fakedata"
 
 if [ -n "${EXCLUDE:-}" ]; then
-        for d in ${EXCLUDE:-}; do
-                args="$args --exclude ${d#/}"
-        done
+	for d in ${EXCLUDE:-}; do
+		args="$args --exclude ${d#/}"
+	done
 fi
 
 if [ -s .SOURCE_DATE_EPOCH ]; then
