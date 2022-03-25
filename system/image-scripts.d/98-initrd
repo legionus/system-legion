@@ -53,7 +53,7 @@ FEATURES += \
 	    system-glibc \
 	    #
 
-FEATURES += pipeline pipeline-tmpfsroot
+FEATURES += pipeline pipeline-stateless
 @@@
 
 for kver in $kvers; do

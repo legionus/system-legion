@@ -57,7 +57,7 @@ kernel-image-un-def
 kernel-modules-drm-glebfm-stable
 kernel-modules-drm-un-def
 make-initrd-luks
-make-initrd-pipeline-tmpfsroot
+make-initrd-pipeline-stateless
 make-initrd-ucode
 mingetty
 openssh-blacklist
