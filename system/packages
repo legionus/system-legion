@@ -49,6 +49,7 @@ apt-rsync
 apt-scripts
 chrony
 consolelocker
+firmware-linux
 gpm
 interactivesystem
 iproute2
