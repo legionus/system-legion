@@ -42,6 +42,12 @@ CTRL tcb_chkpwd tcb
 
 CTRL xorg-server xgrp
 
+# this is temporary
+CTRL sudo restricted
+CTRL sudoers strict
+CTRL sudoreplay restricted
+CTRL sudowheel disabled
+
 cd /etc/control.d/facilities/
 
 rc=0

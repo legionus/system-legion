@@ -81,6 +81,8 @@ dhcp-server
 dhcpcd
 iw
 openvpn
+wireguard-tools
+wireguard-tools-wg-quick
 wpa_supplicant
 
 # network
@@ -195,4 +197,6 @@ xwininfo
 cracklib-
 hasher-priv-
 polkit-
+# See https://bugzilla.altlinux.org/42192
+# sudo-
 wget-
