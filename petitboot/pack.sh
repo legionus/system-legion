@@ -6,9 +6,6 @@ mkdir -p "$OUTNAME"
 cd /.image/"$SUBDIR"
 
 cp ./boot/vmlinuz-* ./boot/initrd-* -t "$OUTNAME"/
-cd "$OUTNAME"/
-ln -sn vmlinuz-* vmlinuz
-ln -sn initrd-* initrd.img
 
 print_path() {
 	local prefix="$1"; shift
