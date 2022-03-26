@@ -23,7 +23,9 @@ if [ -s .SOURCE_DATE_EPOCH ]; then
 fi
 
 tar --numeric-owner --exclude 'boot/*' $args \
-	--zstd -cf "$OUTNAME"/rootfs.tar.zst .
+	--use-compress-program='zstd -19 -v' \
+	-cf "$OUTNAME"/rootfs.tar.zst .
+
 cp ./boot/vmlinuz-* ./boot/initrd-* -t "$OUTNAME"/
 cd "$OUTNAME"/
 
