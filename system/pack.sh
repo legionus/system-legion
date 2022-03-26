@@ -17,7 +17,7 @@ if [ -n "${EXCLUDE:-}" ]; then
 fi
 
 if [ -s .SOURCE_DATE_EPOCH ]; then
-	SOURCE_DATE_EPOCH="$(cat .SOURCE_DATE_EPOCH)"
+	export SOURCE_DATE_EPOCH="$(cat .SOURCE_DATE_EPOCH)"
 	args="$args --exclude .SOURCE_DATE_EPOCH"
 	args="$args --clamp-mtime --mtime=@$SOURCE_DATE_EPOCH"
 fi
