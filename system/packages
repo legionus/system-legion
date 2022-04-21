@@ -115,6 +115,7 @@ qa-robot
 rpm-build-xdg
 rpm-macros-alterator
 rpm-macros-cmake
+rpm-utils
 rpmrebuild
 
 # other devel
