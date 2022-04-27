@@ -55,6 +55,7 @@ firmware-linux
 gpm
 interactivesystem
 iproute2
+iputils
 kernel-image-glebfm-stable
 kernel-image-un-def
 kernel-modules-drm-glebfm-stable
