@@ -1,6 +1,6 @@
 #!/bin/sh -efu
 
-TZ=Europe/Moscow
+TZ=Asia/Tbilisi
 
 ZONE=/usr/share/zoneinfo/"$TZ"
 
