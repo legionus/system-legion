@@ -203,3 +203,4 @@ polkit-
 # See https://bugzilla.altlinux.org/42192
 # sudo-
 wget-
+sysctl-conf-userns-
