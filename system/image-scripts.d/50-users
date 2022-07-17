@@ -25,7 +25,7 @@ for g in users xgrp; do
 	gpasswd -a doppel "$g"
 done
 
-for g in adbusers lxd netadmin proc uucp vmusers wheel; do
+for g in adbusers netadmin proc uucp vmusers wheel; do
 	gpasswd -a gleb "$g"
 done
 

@@ -86,7 +86,6 @@ dhcpcd
 iw
 openvpn
 wireguard-tools
-wireguard-tools-wg-quick
 wpa_supplicant
 
 # network
@@ -145,7 +144,6 @@ minicom
 python3-module-serial
 
 # vm/ve
-lxd
 qemu-block-ssh
 qemu-system-x86
 qemu-ui-gtk
@@ -173,10 +171,8 @@ fonts-ttf-ms
 fonts-ttf-roboto
 mplayer
 pavucontrol
-pidgin
 redshift
 scrot
-tigervnc
 tinyca2
 vim-X11-gtk3
 x-cursor-theme-jimmac
@@ -200,7 +196,6 @@ xwininfo
 cracklib-
 hasher-priv-
 polkit-
-# See https://bugzilla.altlinux.org/42192
-# sudo-
+sudo-
 wget-
 sysctl-conf-userns-

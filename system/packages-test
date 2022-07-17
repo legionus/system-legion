@@ -8,7 +8,6 @@ interactivesystem
 iproute2
 kernel-image-un-def
 kernel-modules-drm-un-def
-lxd
 make-initrd-pipeline-stateless
 make-initrd-ucode
 mingetty

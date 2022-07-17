@@ -1,12 +1,10 @@
 diff --git a/etc/subgid b/etc/subgid
 --- a/etc/subgid
 +++ b/etc/subgid
-@@ -0,0 +1,2 @@
+@@ -0,0 +1,1 @@
 +root:100000:65536
-+lxd:100000:65536
 diff --git a/etc/subuid b/etc/subuid
 --- a/etc/subuid
 +++ b/etc/subuid
-@@ -0,0 +1,2 @@
+@@ -0,0 +1,1 @@
 +root:100000:65536
-+lxd:100000:65536

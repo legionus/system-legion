@@ -22,7 +22,6 @@ trap 'exit 143' HUP INT QUIT PIPE TERM
 
 cat >"$tmpdir"/suid.allowed <<@@@
 4510 root:messagebus /lib/dbus-1/dbus-daemon-launch-helper
-4710 root:vmusers /usr/lib/lxc/lxc-user-nic
 4710 root:vmusers /usr/libexec/qemu-bridge-helper
 4710 root:wheel /bin/su
 4710 root:xgrp /usr/bin/Xorg
