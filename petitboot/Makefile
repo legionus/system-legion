@@ -13,7 +13,17 @@ IMAGE_NAME = petitboot-$(DATE)
 MKI_HANDLER = $(CURDIR)/pack.sh
 MKI_PACK_RESULTS = custom:$(IMAGE_NAME):$(MKI_HANDLER)
 
-IMAGE_PACKAGES = packages
+IMAGE_PACKAGES = \
+	console-scripts \
+	cryptsetup \
+	kernel-image-glebfm-stable \
+	kernel-modules-drm-glebfm-stable \
+	linux-firmware \
+	make-initrd-devmapper \
+	make-initrd-petitboot \
+	make-initrd-ucode \
+	strace \
+	#
 
 include $(CONFIGDIR)/targets.mk
 

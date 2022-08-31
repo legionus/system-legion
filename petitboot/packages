@@ -1,9 +1,0 @@
-console-scripts
-cryptsetup
-kernel-image-glebfm-stable
-kernel-modules-drm-glebfm-stable
-linux-firmware
-make-initrd-devmapper
-make-initrd-petitboot
-make-initrd-ucode
-strace
