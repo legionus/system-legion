@@ -1,0 +1,6 @@
+#!/bin/sh -efu
+
+LANG=C.UTF-8
+
+echo LANG="$LANG" > /etc/locale.conf
+echo LANG="$LANG" > /etc/sysconfig/i18n

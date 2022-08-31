@@ -6,10 +6,6 @@ gpm
 hasher
 interactivesystem
 iproute2
-kernel-image-un-def
-kernel-modules-drm-un-def
-make-initrd-pipeline-stateless
-make-initrd-ucode
 mingetty
 openssh-server
 patch

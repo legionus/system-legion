@@ -1,7 +1,6 @@
 #!/bin/sh -eu
 
-NAME="$(basename "$OUTNAME")"
-mkdir -p "$OUTNAME"
+out="$OUTNAME".tar.zst
 
 cd /.image/"$SUBDIR"
 
@@ -24,18 +23,7 @@ fi
 
 tar --numeric-owner --exclude 'boot/*' $args \
 	--use-compress-program='zstd -19 -T0 -v' \
-	-cf "$OUTNAME"/rootfs.tar.zst .
-
-cp ./boot/vmlinuz-* ./boot/initrd-* -t "$OUTNAME"/
-cd "$OUTNAME"/
-
-for i in vmlinuz-*; do
-	i="${i#*-}"
-	flavour="${i%-*}"
-	flavour="${flavour#*-}"
-	ln -sn vmlinuz-"$i" vmlinuz-"$flavour"
-	ln -sn initrd-"$i".img initrd-"$flavour".img
-done
+	-cf "$out" .
 
 print_path() {
 	local prefix="$1"; shift
@@ -47,12 +35,4 @@ print_path() {
 	echo "** $prefix: $name [$OUTSIZE] ($checksum)" >&2
 }
 
-print_path image "$OUTNAME"/rootfs.tar.zst
-for f in "$OUTNAME"/vmlinuz-*; do
-	[ ! -L "$f" ] || continue
-	print_path kernel "$f"
-done
-for f in "$OUTNAME"/initrd-*; do
-	[ ! -L "$f" ] || continue
-	print_path initrd "$f"
-done
+print_path image "$out"

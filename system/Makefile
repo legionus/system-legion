@@ -1,9 +1,5 @@
 CONFIGDIR = /usr/share/mkimage
 
-# This should happen in a separate mkimage profile.
-# Needed for new make-initrd versions.
-GLOBAL_HSH_PROC = 1
-
 include $(CONFIGDIR)/config.mk
 
 include $(CURDIR)/run-image-patches.mk
