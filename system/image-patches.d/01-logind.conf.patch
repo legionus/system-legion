@@ -1,7 +1,6 @@
 --- a/etc/systemd/logind.conf
 +++ b/etc/systemd/logind.conf
 @@ -15,21 +15,21 @@
- #NAutoVTs=6
  #ReserveVT=6
  #KillUserProcesses=yes
  #KillOnlyUsers=
@@ -11,6 +10,7 @@
  #HandlePowerKey=poweroff
  #HandleSuspendKey=suspend
  #HandleHibernateKey=hibernate
+ #HandleHibernateKeyLongPress=ignore
 -#HandleLidSwitch=suspend
 +HandleLidSwitch=hybrid-sleep
  #HandleLidSwitchExternalPower=suspend
