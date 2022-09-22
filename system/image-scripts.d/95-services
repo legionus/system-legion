@@ -4,6 +4,6 @@ for s in sshd gpm consolelocker chronyd powertop apt-get-update hasher-privd rsy
 	systemctl enable "$s"
 done
 
-for s in geoclue lvm2-monitor wpa_supplicant systemd-binfmt altlinux-simpleresolv altlinux-simpleresolv.path; do
+for s in altlinux-openresolv altlinux-openresolv.path altlinux-simpleresolv altlinux-simpleresolv.path geoclue lvm2-monitor systemd-binfmt wpa_supplicant; do
 	systemctl mask "$s"
 done
