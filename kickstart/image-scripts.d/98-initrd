@@ -1,0 +1,48 @@
+#!/bin/sh -efu
+
+kvers="$(rpm -qa 'kernel-image*' \
+	    --qf '%{installtime} %{version}-%{name}-%{release}\n' \
+	| sort -n \
+	| cut -f 2 -d ' ' \
+	| sed 's/kernel-image-//')"
+
+[ -n "$kvers" ] ||
+	fatal "no kernel version identified"
+
+cat > /etc/initrd-tmp.mk <<'@@@'
+AUTODETECT =
+
+COMPRESS = zstd
+
+PUT_PROGS += \
+	strace \
+	grub-install \
+	efibootmgr \
+	#
+
+PUT_FILES += \
+	/usr/lib64/efi/grubx64.efi \
+	/usr/lib64/grub/x86_64-efi \
+	#
+
+MODULES_ADD += efivars
+
+FEATURES += \
+	    add-modules \
+	    add-udev-rules \
+	    cleanup \
+	    compress \
+	    kickstart \
+	    luks \
+	    network \
+	    qemu \
+	    rdshell \
+	    rootfs \
+	    system-glibc \
+	    #
+@@@
+
+for kver in $kvers; do
+	make-initrd -c /etc/initrd-tmp.mk -N -k "$kver"
+	chmod +r /boot/initrd-"$kver".img
+done

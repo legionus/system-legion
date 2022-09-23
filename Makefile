@@ -2,7 +2,7 @@ export GLOBAL_HSH_APT_CONFIG=$(CURDIR)/apt/conf
 export GLOBAL_VERBOSE=1
 export CLEANUP_OUTDIR=
 
-.PHONY: clean apt petitboot kernels system all
+.PHONY: clean apt petitboot kernels system kickstart all
 
 all: petitboot kernels system
 
@@ -11,6 +11,7 @@ clean:
 	make -C petitboot clean
 	make -C kernels clean
 	make -C system clean
+	make -C kickstart clean
 
 apt:
 	make -C apt clean all
@@ -23,3 +24,6 @@ kernels: apt
 
 system: apt
 	make -C system clean all
+
+kickstart: apt
+	make -C kickstart clean all

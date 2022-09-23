@@ -1,0 +1,12 @@
+dosfstools
+grub-efi
+efibootmgr
+interactivesystem
+kernel-image-std-def
+make-initrd
+make-initrd-kickstart
+make-initrd-luks
+openssh-clients
+openssh-server
+strace
+vim-console
