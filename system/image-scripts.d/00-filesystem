@@ -7,5 +7,5 @@ ln -s /run/lock /var/lock
 ln -s /run /var/run
 ln -s /tmp /var/tmp
 
-rm -rf /root
+mv -T /root /home/root
 ln -s home/root /root
