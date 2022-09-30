@@ -54,7 +54,6 @@ COMPRESS = zstd
 FEATURES += \
 	add-modules \
 	add-udev-rules \
-	buildinfo \
 	cleanup \
 	compress \
 	kbd \
