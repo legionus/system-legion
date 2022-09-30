@@ -21,9 +21,9 @@ trap 'cleanup_tmpdir $?' EXIT
 trap 'exit 143' HUP INT QUIT PIPE TERM
 
 cat >"$tmpdir"/suid.allowed <<@@@
-4510 root:messagebus /usr/lib/dbus-1/dbus-daemon-launch-helper
+4510 root:messagebus /lib/dbus-1/dbus-daemon-launch-helper
 4710 root:vmusers /usr/libexec/qemu-bridge-helper
-4710 root:wheel /usr/bin/su
+4710 root:wheel /bin/su
 4710 root:xgrp /usr/bin/Xorg
 @@@
 
