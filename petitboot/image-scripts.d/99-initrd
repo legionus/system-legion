@@ -52,8 +52,18 @@ MODULES_ADD += dm-crypt af_packet aes cbc xts essiv sha256
 COMPRESS = zstd
 
 FEATURES += \
-	add-modules add-udev-rules buildinfo cleanup compress \
-	kbd network rdshell rootfs system-glibc
+	add-modules \
+	add-udev-rules \
+	buildinfo \
+	cleanup \
+	compress \
+	kbd \
+	network \
+	qemu \
+	rdshell \
+	rootfs \
+	system-glibc \
+	#
 
 FEATURES += petitboot devmapper
 

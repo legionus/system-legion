@@ -51,6 +51,7 @@ FEATURES += \
 	    kbd \
 	    luks \
 	    network \
+	    qemu \
 	    rdshell \
 	    rootfs \
 	    system-glibc \
