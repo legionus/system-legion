@@ -2,7 +2,7 @@ export GLOBAL_HSH_APT_CONFIG=$(CURDIR)/apt/conf
 export GLOBAL_VERBOSE=1
 export CLEANUP_OUTDIR=
 
-.PHONY: clean apt petitboot kernels system kickstart all
+.PHONY: clean apt petitboot kernels system kickstart test all
 
 all: petitboot kernels system
 
@@ -27,3 +27,6 @@ system: apt
 
 kickstart: apt
 	make -C kickstart clean all
+
+test: kickstart/out/kickstart/vmlinuz kickstart/out/kickstart/initrd.img
+	./test

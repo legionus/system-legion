@@ -1,0 +1,285 @@
+#!/bin/sh -eux
+
+outdir="$HOME"/out
+
+kickstart_vmlinuz="$HOME"/git/glebfm-system/kickstart/out/kickstart/vmlinuz
+kickstart_initrd="$HOME"/git/glebfm-system/kickstart/out/kickstart/initrd.img
+[ -s "$kickstart_vmlinuz" ]
+[ -s "$kickstart_initrd" ]
+
+find_latest() {
+	local prefix="$1"; shift
+	local postfix="${1-}"
+
+	ls -dtr $outdir/$prefix-*$postfix | tail -1
+}
+
+system="$(find_latest system tar.zst)"
+kernel="$(find_latest kernel glebfm-stable-*)"
+petitboot="$(find_latest petitboot)"
+extra_dir="$HOME"/git/glebfm-system/examples
+
+tmpdir=
+cleanup_tmpdir()
+{
+	[ -z "$tmpdir" ] || rm -rf -- "$tmpdir"
+	exit "$@"
+}
+
+tmpdir=$(mktemp -dt "${0##*/}.XXXXXXXX")
+trap 'cleanup_tmpdir $?' EXIT
+trap 'exit 143' HUP INT QUIT PIPE TERM
+
+mkdir -p "$tmpdir"/sysimage
+cp -a -t "$tmpdir"/sysimage "$system" "$kernel" "$petitboot" "$extra_dir"
+
+bytes="$(du -sb "$tmpdir"/sysimage | cut -f1)"
+bytes="$(( $bytes + (($bytes) / 10)))"
+
+fallocate -l "$bytes" "$tmpdir"/sysimage.img
+mke2fs -t ext3 -L SYSIMAGE -d "$tmpdir"/sysimage "$tmpdir"/sysimage.img
+
+mkdir -p "$tmpdir"/cpio/etc/ks.conf.d
+cat > "$tmpdir"/cpio/etc/ks.conf.d/ks.cfg <<'@@@'
+ignoredisk --drives=LABEL=SYSIMAGE
+clearpart --all --initlabel --disklabel=gpt
+part /mnt/pvt/bootloader --size=10% --fstype=fat  --label=BOOT
+part /mnt/pvt/system	 --size=70% --fstype=ext4 --label=SYSTEM --encrypted --passphrase=1
+part /home		 --size=20% --fstype=ext4 --label=HOME   --encrypted --passphrase=1
+
+shutdown
+
+%post --nochroot --erroronfail
+set -eu
+set -x
+mkdir -p /usr/share/locale
+
+mkdir -p /sysimage
+dev=$(blkid --label SYSIMAGE)
+mount "$dev" /sysimage
+
+zstd -d < /sysimage/system-*.tar.zst |
+	tar -C /root -xf -
+
+boot=/root/mnt/pvt/bootloader
+system=/root/mnt/pvt/system
+
+grub-install \
+	--root-directory "$boot" \
+	--boot-directory "$boot" \
+	--efi-directory "$boot" \
+	#
+
+cp -r /sysimage/petitboot-* "$boot"/
+cp -a /sysimage/system-* /sysimage/kernel-* "$system"/
+cp -T /sysimage/examples/bootloader-gen-grub "$boot"/gen-grub
+cp -T /sysimage/examples/system-gen-grub "$system"/gen-grub
+cp -T /sysimage/examples/system-gen-luks-initrd "$system"/gen-luks-initrd
+cp -T {/sysimage/examples,/root}/update_system_static
+%end
+
+%post --erroronfail
+set -eu
+set -x
+
+mkdir -p /proc
+mount -t proc proc /proc
+
+mkdir -p /sys
+mount -t sysfs sysfs /sys
+
+mkdir -p /dev
+mount -t devtmpfs devfs /dev
+
+blkid
+findmnt
+
+boot=/mnt/pvt/bootloader
+system=/mnt/pvt/system
+
+sh "$boot"/gen-grub \
+	>"$boot"/grub/grub.cfg
+mkdir "$system"/grub
+
+blkid_query() {
+	local match="$1"; shift
+	local var="$1"; shift
+	(
+		eval "$(blkid --match-token "$match" --output export)"
+		eval echo "\$$var"
+	)
+}
+
+get_luks_uuid() {
+	local label="$1"; shift
+
+	local dev="$(blkid_query LABEL="$label" DEVNAME)"
+	[ -n "$dev" ]
+	local maj="$(stat -c '%t' -L "$dev")"
+	local min="$(stat -c '%T' -L "$dev")"
+	local majmin="$((0x$maj)):$((0x$min))"
+	local dev=/sys/dev/block/"$majmin"
+	local hostdev=
+	local found=
+	for f in "$dev"/slaves/*; do
+		if [ ! -d "$f" ] || [ -n "$found" ]; then
+			echo "fatal"
+			exit 1
+		else
+			hostdev="$(basename "$f")"
+			found=1
+		fi
+	done
+	(
+		eval "$(blkid /dev/"$hostdev" --output export)"
+		echo "$UUID"
+	)
+}
+
+HOME_UUID="$(get_luks_uuid HOME)"
+SYSTEM_UUID="$(get_luks_uuid SYSTEM)"
+
+cat >/etc/fstab <<EOF
+proc	/proc		proc	nosuid,noexec,gid=proc,hidepid=2	0 0
+devpts	/dev/pts	devpts	nosuid,noexec,gid=tty,mode=620		0 0
+tmpfs	/tmp		tmpfs	nosuid,size=90%				0 0
+
+LABEL=HOME	/home	ext4	nosuid,nodev,relatime	1 2
+
+LABEL=BOOT	/mnt/pvt/bootloader	vfat	noauto,nosuid,nodev,noexec,quiet,showexec,iocharset=utf8,codepage=866				0 0
+LABEL=SYSTEM	/mnt/pvt/system		ext4	noauto,nosuid,nodev,relatime,x-systemd.requires=systemd-cryptsetup@luks\x2dsystem.service	0 0
+EOF
+
+cat >/etc/crypttab <<EOF
+luks-home	UUID=$HOME_UUID	- password-echo=no
+luks-system	UUID=$SYSTEM_UUID	- password-echo=no,noauto
+EOF
+
+mkdir "$system"/luks-initrd
+cd "$system"/luks-initrd
+mkdir etc
+cat /etc/crypttab \
+	>etc/crypttab
+mkdir etc/cryptsetup-keys.d
+printf '%s' 1 >etc/cryptsetup-keys.d/luks-system.key
+printf '%s' 1 >etc/cryptsetup-keys.d/luks-home.key
+printf '%s' 1 >etc/cryptsetup-keys.d/luks-swap.key
+"$system"/gen-luks-initrd
+
+"$system"/gen-grub \
+	>"$system"/grub/grub.cfg
+
+for u in gleb doppel; do
+	chmod 700 /home/"$u"
+	install -m 644 -o "$u" -g "$u" /dev/null /home/"$u"/.zshrc
+done
+
+systemd-machine-id-setup
+cat /etc/machine-id \
+	>/var/lib/dbus/machine-id
+echo stateless.test \
+	>/etc/hostname
+ssh-keygen -A
+rm /etc/tcb/*/shadow.lock
+echo root:1 | chpasswd
+echo gleb:1 | chpasswd
+echo doppel:1 | chpasswd
+
+cat >/etc/apt/sources.list <<EOF
+rpm rsync://10.0.2.2/ALT/Sisyphus x86_64 classic
+rpm rsync://10.0.2.2/ALT/Sisyphus noarch classic
+rpm rsync://10.0.2.2/ALT/Sisyphus x86_64-i586 classic
+EOF
+
+for p in /sys/class/net/*; do
+	i="$(basename "$p")"
+	case "$i" in
+		lo) ;;
+		eth*|en*) break ;;
+	esac
+done
+mac="$(cat "$p"/address)"
+
+cat > /etc/systemd/network/10-eth.link <<EOF
+[Match]
+MACAddress=$mac
+
+[Link]
+Name=eth0
+EOF
+
+cat > /etc/systemd/network/10-eth.network <<'EOF'
+[Match]
+Name=eth0
+
+[Network]
+DHCP=yes
+EOF
+
+cat >> /etc/modules-load.d/modules.conf <<'EOF'
+
+# EFI partition
+vfat
+nls_utf8
+nls_cp866
+EOF
+
+mv -T {,/usr/local/bin}/update_system_static
+update_system_static
+
+umount /proc /sys /dev
+%end
+@@@
+cd "$tmpdir"/cpio
+find -type f | cpio -H newc -o | zstd -19 > "$tmpdir"/ks.cpio
+
+cat "$kickstart_initrd" "$tmpdir"/ks.cpio \
+        >"$tmpdir"/initrd.img
+kickstart_initrd="$tmpdir"/initrd.img
+
+cp -TLf /usr/share/OVMF/OVMF_VARS.fd "$tmpdir"/efivars.bin
+
+qemu-img create -q -f qcow2 -o preallocation=falloc,lazy_refcounts=on "$tmpdir"/system.img 2G
+
+mem="$(grep MemAvailable: /proc/meminfo)"
+mem="${mem##MemAvailable: }"
+mem="${mem%% kB}"
+mem="$(("$mem" / 1024))"
+
+common_opts="
+	-machine q35 \
+	-enable-kvm \
+	-smp cores=$(nproc) \
+	-cpu host \
+	-m ${mem}M \
+	-drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd \
+	-drive if=pflash,format=raw,file="$tmpdir/efivars.bin" \
+"
+
+sysimage_opts="
+	-blockdev "driver=file,node-name=sysimage,filename=$tmpdir/sysimage.img" \
+	-device "virtio-blk,drive=sysimage" \
+"
+
+system_disk_opts="
+	-blockdev "driver=qcow2,node-name=system,file.locking=off,file.driver=file,file.node-name=system-file,file.filename=$tmpdir/system.img,cache.no-flush=on,discard=unmap,detect-zeroes=unmap" \
+	-device "virtio-blk,drive=system" \
+"
+
+qemu-system-x86_64 \
+	$common_opts \
+	$sysimage_opts \
+	$system_disk_opts \
+	-nographic \
+	-kernel "$kickstart_vmlinuz" \
+	-initrd "$kickstart_initrd" \
+	-append 'console=ttyS0 rdlog=console ksfile=ks.cfg rdshell=1' \
+	#
+
+while :; do
+	qemu-system-x86_64 \
+		$common_opts \
+		$system_disk_opts \
+		-vga virtio \
+		#
+done

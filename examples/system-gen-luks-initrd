@@ -1,0 +1,13 @@
+#!/bin/sh -efux
+
+set -o pipefail
+
+cd /mnt/pvt/system
+mountpoint -q .
+
+cd luks-initrd
+
+find etc |
+	cpio -H newc --create --quiet |
+	zstd -19 \
+	>/mnt/pvt/system/luks-initrd.img

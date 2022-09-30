@@ -1,0 +1,63 @@
+#!/bin/sh -efu
+
+set -efu
+
+tmpdir=
+cleanup_tmpdir()
+{
+	[ -z "$tmpdir" ] || rm -rf -- "$tmpdir"
+	exit "$@"
+}
+
+tmpdir=$(mktemp -dt "${0##*/}.XXXXXXXX")
+trap 'cleanup_tmpdir $?' EXIT
+trap 'exit 143' HUP INT QUIT PIPE TERM
+
+cd /mnt/pvt/system
+mountpoint -q .
+
+gen_entry() {
+	local image="$1"; shift
+	local kernel="$1"; shift
+	local iver="${image%.tar.zst}"
+	local kver="${kernel#kernel-}"
+
+	if [ ! -s "$image" ] || [ ! -s "$kernel"/vmlinuz ] || [ ! -s "$kernel"/initrd.img ]; then
+		echo "$image + $kernel is broken" >&2
+		exit 1
+	fi
+
+	cat "$kernel"/initrd.img luks-initrd.img \
+		>"$kernel"/initrd-luks.img
+
+	echo "Adding: 'Tarboot ($iver $kver)' entry" >&2
+	cat <<@@@
+menuentry "Tarboot ($iver $kver)" {
+	linux   /$kernel/vmlinuz 'ro panic=30 root=pipeline pipeline=waitdev,mountfs,stateless,rootfs waitdev=LABEL=SYSTEM mountfs=dev stateless_images=$image|$kernel/modules.tar.zst|system-static.tar stateless_init_size=10G stateless_size_mult=0 rdlog=console'
+	initrd  /$kernel/initrd-luks.img
+}
+
+@@@
+}
+
+cat <<'@@@'
+set default=0
+set timeout=
+
+@@@
+
+set +f
+for i in system-*.tar.zst; do
+	echo "$i"
+done >"$tmpdir"/images
+
+ls -dt kernel-* \
+	>"$tmpdir"/kernels
+
+sort -n -r -o "$tmpdir"/images{,}
+
+while read system; do {
+	while read kernel; do {
+		gen_entry "$system" "$kernel"
+	} </dev/null; done <"$tmpdir"/kernels
+} </dev/null; done <"$tmpdir"/images
