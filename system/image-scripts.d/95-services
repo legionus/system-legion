@@ -1,6 +1,6 @@
 #!/bin/sh -efu
 
-for s in sshd gpm consolelocker chronyd powertop hasher-privd rsyncd.socket getty@tty1 getty@tty2 getty@tty3; do
+for s in chronyd consolelocker getty@tty1 getty@tty2 getty@tty3 gpm hasher-privd powertop rsyncd.socket sshd sysfs; do
 	systemctl enable "$s"
 done
 

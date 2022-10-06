@@ -65,6 +65,7 @@ shadow-check
 shadow-edit
 shadow-log
 shadow-submap
+sysfsutils
 systemd
 systemd-analyze
 systemd-settings-disable-kill-user-processes
