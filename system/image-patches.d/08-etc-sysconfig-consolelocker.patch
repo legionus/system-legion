@@ -1,6 +1,0 @@
-diff --git a/etc/sysconfig/consolelocker b/etc/sysconfig/consolelocker
---- a/etc/sysconfig/consolelocker
-+++ b/etc/sysconfig/consolelocker
-@@ -1 +1 @@
--GROUP=wheel
-+GROUP=hashman

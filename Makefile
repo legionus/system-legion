@@ -2,13 +2,12 @@ export GLOBAL_HSH_APT_CONFIG=$(CURDIR)/apt/conf
 export GLOBAL_VERBOSE=1
 export CLEANUP_OUTDIR=
 
-.PHONY: clean apt petitboot kernels system kickstart test all
+.PHONY: clean apt kernels system all
 
-all: petitboot kernels system
+all: kernels system
 
 clean:
 	make -C apt clean
-	make -C petitboot clean
 	make -C kernels clean
 	make -C system clean
 	make -C kickstart clean
@@ -16,17 +15,16 @@ clean:
 apt:
 	make -C apt clean all
 
-petitboot: apt
-	make -C petitboot clean all
-
 kernels: apt
 	make -C kernels clean all
 
 system: apt
 	make -C system clean all
+	@if [ ! -e /sysimage/stateless/local-latest.star ]; then \
+	  $(CURDIR)/init-local-star && \
+	  printf '%s\n' \
+	   "Remember to modify local-latest.star and add the necessary settings."; \
+	fi
 
-kickstart: apt
-	make -C kickstart clean all
-
-test: kickstart/out/kickstart/vmlinuz kickstart/out/kickstart/initrd.img
-	./test
+sync:
+	@rsync --remove-source-files -vrlp -- $(HOME)/sysimage/stateless/ /sysimage/stateless/

@@ -1,0 +1,19 @@
+diff --git a/usr/sbin/grub-mkconfig b/usr/sbin/grub-mkconfig
+--- a/usr/sbin/grub-mkconfig
++++ b/usr/sbin/grub-mkconfig
+@@ -131,8 +131,14 @@
+     exit 1
+ fi
+ 
++rootmnt=/
++
++if test -f ${sysconfdir}/sysconfig/grub2-stateless ; then
++  . ${sysconfdir}/sysconfig/grub2-stateless
++fi
++
+ # Device containing our userland.  Typically used for root= parameter.
+-GRUB_DEVICE="`${grub_probe} --target=device /`"
++GRUB_DEVICE="`${grub_probe} --target=device $rootmnt`"
+ GRUB_DEVICE_UUID="`${grub_probe} --device ${GRUB_DEVICE} --target=fs_uuid 2> /dev/null`" || true
+ GRUB_DEVICE_PARTUUID="`${grub_probe} --device ${GRUB_DEVICE} --target=partuuid 2> /dev/null`" || true
+ 

@@ -1,0 +1,4 @@
+#!/bin/sh -efu
+
+set -efu
+/usr/local/bin/update-loader grub

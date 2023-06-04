@@ -4,7 +4,7 @@ GLOBAL_HSH_PROC = 1
 
 include $(CONFIGDIR)/config.mk
 
-OUTDIR=$(HOME)/out
+OUTDIR=$(HOME)/sysimage/stateless
 GLOBAL_WORKROOT=$(HOME)/tmp
 
 # It's actually up to pack method whether to use the name or not,
@@ -16,11 +16,13 @@ MKI_PACK_RESULTS = custom:$(IMAGE_NAME):$(MKI_HANDLER)
 
 IMAGE_PACKAGES = \
 	console-scripts \
-	kernel-image-glebfm-stable \
-	kernel-image-un-def \
-	kernel-modules-drm-glebfm-stable \
-	kernel-modules-drm-un-def \
-	make-initrd-luks \
+	kernel-image-centos \
+	kernel-modules-alsa-centos \
+	kernel-modules-drm-centos \
+	kernel-modules-media-centos \
+	kernel-modules-nvidia-open-centos \
+	\
+	make-initrd \
 	make-initrd-pipeline-stateless \
 	make-initrd-ucode \
 	strace \

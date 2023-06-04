@@ -3,4 +3,3 @@
 
 proc		/proc		proc	rw,nosuid,nodev,noexec,gid=proc,hidepid=2			0	0
 shmfs		/dev/shm	tmpfs	nosuid,nodev,noexec,gid=0,mode=1777,nr_inodes=1k,size=512m	0	0
-/ALT		/ALT		none	ro,bind								0	0

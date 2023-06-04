@@ -1,7 +1,13 @@
-rpm file:///ALT/Sisyphus x86_64 classic
-rpm file:///ALT/Sisyphus noarch classic
-rpm file:///ALT/Sisyphus x86_64-i586 classic
+rpm http://ftp.altlinux.org/pub/distributions/archive/sisyphus/latest x86_64 debuginfo
+rpm http://ftp.altlinux.org/pub/distributions/archive/sisyphus/latest x86_64 classic
+rpm http://ftp.altlinux.org/pub/distributions/archive/sisyphus/latest noarch classic
 
-rpm file:///home/gleb repo_local/x86_64 addon overlay
+rpm https://lakostis.unsafe.ru/RPMS/ALTLinux/glvnd/repo noarch hasher
+rpm https://lakostis.unsafe.ru/RPMS/ALTLinux/glvnd/repo x86_64 hasher
 
-# rpm http://git.altlinux.org repo/TASK_ID/x86_64 task
+rpm http://www.unsafe.ru/lakostis/RPMS/ALTLinux/testing/kernel-5.10/repo x86_64 hasher
+rpm https://alt-lakostis.gitlab.io/kmodules/centos/repo x86_64 hasher
+
+rpm https://git.altlinux.org/repo/322512 x86_64 task
+
+# rpm https://git.altlinux.org/repo/TASK_ID x86_64 task

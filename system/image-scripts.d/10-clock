@@ -1,8 +1,8 @@
 #!/bin/sh -efu
 
-TZ=Asia/Tbilisi
+TZ="${INFO_TIME_ZONE:-UTC}"
 
-ZONE=/usr/share/zoneinfo/"$TZ"
+ZONE="/usr/share/zoneinfo/$TZ"
 
 [ -s "$ZONE" ] || {
 	echo "$ZONE does not exist" >&2

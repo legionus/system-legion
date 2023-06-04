@@ -1,0 +1,12 @@
+diff --git a/etc/net/options.d/50-ALTLinux-server b/etc/net/options.d/50-ALTLinux-server
+--- a/etc/net/options.d/50-ALTLinux-server
++++ b/etc/net/options.d/50-ALTLinux-server
+@@ -3,7 +3,7 @@
+ RESOLV_POSTIN_ARGS=conf
+ ALLOW_UNKNOWN=off
+ SILENT_REMOVABLES=no
+-DHCP_CLIENT=/sbin/dhcpcd
++DHCP_CLIENT=/sbin/dhclient
+ DHCP_TIMEOUT=30
+ DHCP_GRACE_TIME=10
+ DHCP_HOSTNAME=localhost

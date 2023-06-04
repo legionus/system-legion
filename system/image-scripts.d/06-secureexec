@@ -23,25 +23,23 @@ trap 'exit 143' HUP INT QUIT PIPE TERM
 cat >"$tmpdir"/suid.allowed <<@@@
 4510 root:messagebus /lib/dbus-1/dbus-daemon-launch-helper
 4710 root:vmusers /usr/libexec/qemu-bridge-helper
-4710 root:wheel /bin/su
-4710 root:xgrp /usr/bin/Xorg
+4711 root:root /usr/lib/consolehelper/priv/auth
+4711 root:root /usr/lib64/chromium/chrome-sandbox
 @@@
 
 cat >"$tmpdir"/sgid.allowed <<@@@
 2711 root:_gnupg /usr/bin/gpg
+2711 root:_gnupg /usr/bin/gpg-agent
+2711 root:_gnupg /usr/bin/gpg2
 2711 root:chkpwd /usr/bin/vlock
+2711 root:chkpwd /usr/libexec/chkpwd-pam/chkpwd-pam
+2711 root:conshelp /usr/lib/consolehelper/helper
 2711 root:iputils /usr/libexec/ping/ping
-2711 root:postdrop /usr/libexec/postfix/postqueue/postqueue
-2711 root:postdrop /usr/sbin/postdrop
-2711 root:proc /usr/bin/netlist
-2711 root:screen /usr/bin/screen
 2711 root:shadow /usr/bin/passwd
 2711 root:shadow /usr/lib/chkpwd/tcb_chkpwd
-2711 root:shadow /usr/lib/screen/tcb_chkpwd
 2711 root:sshagent /usr/bin/ssh-agent
 2711 root:tty /usr/bin/wall
 2711 root:utempter /usr/bin/xterm
-2711 root:utmp /usr/lib/screen/utempter
 2711 root:utmp /usr/lib/utempter/utempter
 @@@
 

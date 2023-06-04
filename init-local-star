@@ -1,0 +1,75 @@
+#!/bin/sh -eu
+
+PROG="${0##*/}"
+date="${DATE:-$(date +%Y%m%d)}"
+
+dir="${OUTDIR:-/sysimage/stateless}"
+
+list_if_exists()
+{
+	while [ "$#" -gt 0 ]; do
+		[ ! -e "$1" ] || printf '%s\n' "$1"
+		shift
+	done
+}
+
+list_systemd()
+{
+	[ -x /sbin/systemd ] ||
+		return 0
+	list_if_exists \
+		/etc/systemd/network/*.link \
+		/etc/systemd/network/*.network \
+		#
+}
+
+list_etcnet()
+{
+	local d
+
+	[ -d /etc/net ] ||
+		return 0
+
+	for d in /etc/net/ifaces/*; do
+		case "$d" in
+			*/default|*/unknown|*/lo)
+				;;
+			*) list_if_exists "$d"
+				;;
+		esac
+	done
+}
+
+[ ! -e "$dir/local-latest.star" ] ||
+	exit 0
+
+if [ -f local-"$date".star ]; then
+	ln -snv -- "local-$date.star" "$dir/local-latest.star"
+	exit 0
+fi
+
+umask 077
+{
+	list_if_exists \
+		/etc/chrony.conf \
+		/etc/crypttab  \
+		/etc/hostname \
+		/etc/openssh/ssh_host_*_key* \
+		/etc/tcb \
+		/etc/udev/rules.d/*-net-setup-link.rules \
+		/etc/udev/rules.d/*-persistent-net.rules \
+		/var/lib/dbus/machine-id /etc/machine-id \
+		#
+	list_systemd
+	list_etcnet
+} |
+tar -cvP \
+	--exclude '*~' \
+	--exclude '*.swp' \
+	--exclude '*.rpmnew' \
+	--exclude '*.rpmsave' \
+	-f "$dir/local-$date.star" \
+	--use-compress-program='zstd -1 -T0 -v' \
+	--files-from=-
+
+ln -snv -- "local-$date.star" "$dir/local-latest.star"

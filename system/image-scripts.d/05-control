@@ -2,44 +2,14 @@
 
 export LC_ALL=C
 
+[ -d /etc/control.d ] ||
+	exit 0
+
 facilities=
-CTRL() {
-	local facility="$1"; shift
-	local state="$1"; shift
-	control "$facility" "$state"
-	facilities="$facilities $facility"
-}
-
-for facility in at chage chfn chsh crontab fusermount gpasswd groupmems newgidmap newuidmap newgrp write; do
-	CTRL "$facility" restricted
+for state in $INFO_CONTROL_STATES; do
+	control "${state%%:*}" "${state##*:}"
+	facilities="$facilities ${state%%:*}"
 done
-
-CTRL chrony client
-CTRL postfix local
-CTRL postqueue mailadm
-
-CTRL kvm vmusers
-
-CTRL mount unprivileged
-
-CTRL passwdqc-enforce everyone
-
-CTRL ping netadmin
-
-CTRL sftp disabled
-CTRL sshd-allow-groups enabled
-CTRL sshd-password-auth disabled
-
-CTRL su wheelonly
-
-CTRL pam_access disabled
-CTRL pam_mktemp enabled
-CTRL passwd tcb
-CTRL system-auth local
-CTRL system-policy local
-CTRL tcb_chkpwd tcb
-
-CTRL xorg-server xgrp
 
 cd /etc/control.d/facilities/
 

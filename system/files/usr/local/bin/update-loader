@@ -1,0 +1,90 @@
+#!/bin/bash -efu
+
+. shell-error
+
+imgdir=/sysimage/stateless
+
+boot_parameters()
+{
+	local reldir="${imgdir#/}"
+
+	printf ' %s' \
+		ro panic=30 rdlog=console \
+		root=pipeline pipeline=waitdev,mountfs,stateless,rootfs \
+		waitdev=LABEL=ROOT \
+		mountfs=dev \
+		stateless_init_size=10G \
+		stateless_size_mult=0 \
+		stateless_images="$reldir/system-$1.star,$reldir/local-$2.star,$reldir/kernel-$3/kmodules.star"
+}
+
+config_grub()
+{
+	local system_stars kernels
+
+	system_starts=()
+	readarray -t system_stars < <(
+		find "$imgdir" \
+			-mindepth 1 -maxdepth 1 -type f \
+			-name 'system-*.star' \
+			-printf '%f\n' |
+		sort --version-sort
+	)
+
+	kernels=()
+	readarray -t kernels < <(
+		find "$imgdir" \
+			-mindepth 1 -maxdepth 1 -type d \
+			-name 'kernel-*' \
+			-printf '%f\n' |
+		sort --version-sort
+	)
+
+	printf '%s\n' \
+		"### BEGIN Stateless Tar ARchives ###" \
+		"set default=0" \
+		"set timeout=" \
+		""
+
+	if [ -e "$imgdir/system-stable.star" ] && [ -e "$imgdir/kernel-latest" ]; then
+		printf '%s\n' \
+			"menuentry 'ALT Star (stable latest)' --class gnu-linux --class gnu --class os {" \
+			"  linux   $imgdir/kernel-latest/vmlinuz $(boot_parameters stable latest latest)" \
+			"  initrd  $imgdir/kernel-latest/initrd.img" \
+			"}"
+	fi
+
+	printf '%s\n' \
+		"submenu 'ALT Advanced Stars' {"
+
+	for system in "${system_stars[@]}"; do
+		s_ver="${system#system-}"
+		s_ver="${s_ver%.star}"
+
+		for kernel in "${kernels[@]}"; do
+			k_ver="${kernel#kernel-}"
+
+			printf '%s\n' \
+				"  menuentry 'ALT Star (${s_ver} $k_ver)' --class gnu-linux --class gnu --class os {" \
+				"    linux   $imgdir/kernel-$k_ver/vmlinuz $(boot_parameters "$s_ver" "latest" "$k_ver")" \
+				"    initrd  $imgdir/kernel-$k_ver/initrd.img" \
+				"  }"
+		done
+	done
+	printf '}\n'
+	printf '%s\n' \
+		'### END Stateless Tar ARchives ###'
+
+}
+
+loader="grub"
+if [ "$#" -gt 0 ]; then
+	loader="$1"
+	shift
+fi
+
+case "$loader" in
+	grub)
+		config_grub
+		;;
+esac

@@ -1,0 +1,12 @@
+#!/bin/bash -efu
+
+chkconfig="$(type -P chkconfig)" ||
+	exit 0
+
+for s in $(/sbin/chkconfig --type sysv --list | cut -f1 -d\  ); do
+	"$chkconfig" "$s" off
+done
+
+for s in ${INFO_SYSV_ENABLE_SERVICES-}; do
+	"$chkconfig" "$s" on
+done

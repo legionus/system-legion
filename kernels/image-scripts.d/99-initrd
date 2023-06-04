@@ -11,51 +11,18 @@ kvers="$(rpm -qa 'kernel-image*' \
 
 cat > /etc/initrd-tmp.mk <<@@@
 AUTODETECT =
+MOUNTPOINTS = \
+        /
 
-# hid-generic
-MODULES_ADD += hid:b0000g0001v00000000p00000000
-
-# i915: VGA compatible controller: Intel Corporation CometLake-U GT2 [UHD Graphics] (rev 02)
-MODULES_ADD += pci:v00008086d00009B41sv000017AAsd00005079bc03sc00i00
-
-# serio_raw: i8042 KBD port
-MODULES_ADD += serio:ty06pr00id00ex00
-
-# input-leds, evdev: i8042 AT Translated Set 2 keyboard
-MODULES_ADD += input:b0011v0001p0001eAB83_e0,1,4,11,14,k71,72,73,74,75,76,77,79,7A,7B,7C,7D,7E,7F,80,8C,8E,8F,9B,9C,9D,9E,9F,A3,A4,A5,A6,AC,AD,B7,B8,B9,D9,E2,ram4,l0,1,2,sfw
-
-# ahci: SATA controller: Intel Corporation Comet Lake SATA AHCI Controller
-MODULES_ADD += pci:v00008086d000002D3sv000017AAsd00005079bc01sc06i01
-
-# sd_mod: KINGSTON SKC400S
-MODULES_ADD += scsi:t-0x00
-
-# ipv6
-MODULES_ADD += net-pf-10
-
-# af_packet
-MODULES_ADD += net-pf-17
-
-# ext4
-MODULES_ADD += fs-ext4
-
-MODULES_ADD += dm-crypt crypto-aes crypto-cbc crypto-xts crypto-essiv crypto-sha256
-
-COMPRESS = zstd
+MODULES_ADD += \
+        fs-ext4 \
+        pci:v000015B7d00005009sv000015B7sd00005009bc01sc08i02
 
 FEATURES += \
-	    add-modules \
-	    add-udev-rules \
-	    cleanup \
-	    compress \
-	    kbd \
-	    luks \
-	    network \
-	    qemu \
-	    rdshell \
-	    rootfs \
-	    system-glibc \
-	    #
+        add-modules add-udev-rules cleanup compress gpu-drm kbd \
+        network rdshell rootfs system-glibc ucode
+
+COMPRESS = zstd
 
 FEATURES += pipeline pipeline-stateless
 @@@

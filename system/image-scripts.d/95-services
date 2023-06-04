@@ -1,9 +1,0 @@
-#!/bin/sh -efu
-
-for s in chronyd consolelocker getty@tty1 getty@tty2 getty@tty3 gpm hasher-privd powertop rsyncd.socket sshd sysfs; do
-	systemctl enable "$s"
-done
-
-for s in altlinux-openresolv altlinux-openresolv.path altlinux-simpleresolv altlinux-simpleresolv.path geoclue lvm2-monitor systemd-binfmt wpa_supplicant; do
-	systemctl mask "$s"
-done

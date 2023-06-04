@@ -1,13 +1,17 @@
 #!/bin/sh -eu
 
-NAME="$(basename "$OUTNAME")"
+: "${SUBDIR?}"
+: "${OUTNAME?}"
+
+modname=kmodules.star
 
 cd /.image/"$SUBDIR"
 
-args=
+set --
 if [ -s .SOURCE_DATE_EPOCH ]; then
-	export SOURCE_DATE_EPOCH="$(cat .SOURCE_DATE_EPOCH)"
-	args="$args --clamp-mtime --mtime=@$SOURCE_DATE_EPOCH"
+	SOURCE_DATE_EPOCH="$(cat .SOURCE_DATE_EPOCH)"
+	export SOURCE_DATE_EPOCH
+	set -- --clamp-mtime --mtime=@"$SOURCE_DATE_EPOCH"
 fi
 
 for i in boot/vmlinuz-*; do
@@ -25,19 +29,23 @@ for i in boot/vmlinuz-*; do
 	ln -sn initrd-"$i".img "$outdir"/initrd-"$flavour".img
 	ln -sn initrd-"$i".img "$outdir"/initrd.img
 
-	tar --numeric-owner $args \
+	tar --numeric-owner "$@" \
 		--use-compress-program='zstd -19 -T0 -v' \
-		-cf "$outdir"/modules.tar.zst lib/modules/"$i"
+		-cf "$outdir/$modname" lib/modules/"$i"
 done
 
 print_path() {
 	local prefix="$1"; shift
 	local path="$1"; shift
-	local name="$(basename "$path")"
-	local OUTSIZE="$(ls -lh "$path" | cut -f5 -d' ')"
-	local checksum="$(b2sum "$path" | cut -f1 -d' ')"
+	local name
+	local size
+	local checksum
+	name="$(basename "$path")"
+	size="$(stat -c %s "$path")"
+	size="$(numfmt --to=iec-i --suffix=B "$size")"
+	checksum="$(b2sum "$path" | cut -f1 -d' ')"
 
-	echo "** $prefix: $name [$OUTSIZE] ($checksum)" >&2
+	echo "** $prefix: $name [$size] ($checksum)" >&2
 }
 
 for i in boot/vmlinuz-*; do
@@ -45,5 +53,5 @@ for i in boot/vmlinuz-*; do
 	outdir="$OUTNAME$i"
 	print_path kernel "$outdir"/vmlinuz-"$i"
 	print_path initrd "$outdir"/initrd-"$i".img
-	print_path modules "$outdir"/modules.tar.zst
+	print_path modules "$outdir/$modname"
 done

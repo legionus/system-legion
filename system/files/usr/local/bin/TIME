@@ -1,4 +1,0 @@
-#!/bin/sh -efu
-
-printf >&2 '%s\n' "--> $*"
-exec time "$@"
