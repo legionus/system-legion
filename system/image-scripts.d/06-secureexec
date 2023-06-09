@@ -35,6 +35,7 @@ cat >"$tmpdir"/sgid.allowed <<@@@
 2711 root:chkpwd /usr/bin/vlock
 2711 root:chkpwd /usr/libexec/chkpwd-pam/chkpwd-pam
 2711 root:conshelp /usr/lib/consolehelper/helper
+2711 root:crontab /usr/bin/crontab
 2711 root:iputils /usr/libexec/ping/ping
 2711 root:shadow /usr/bin/passwd
 2711 root:shadow /usr/lib/chkpwd/tcb_chkpwd
@@ -57,8 +58,11 @@ find $dirs -type f \( -perm /2000 \) -printf '%m %u:%g %p\n' \
 sort -u -o "$tmpdir"/suid.exists{,}
 sort -u -o "$tmpdir"/sgid.exists{,}
 
-diff -u "$tmpdir"/suid.{allowed,exists}
-diff -u "$tmpdir"/sgid.{allowed,exists}
+rc=0
+diff -u "$tmpdir"/suid.{allowed,exists} || rc=1
+diff -u "$tmpdir"/sgid.{allowed,exists} || rc=1
+
+[ $rc -eq 0 ]
 
 # fakeroot doesn't support capabilities and that's ok
 [ 0 = "$(getcap -r / | wc -l)" ]
