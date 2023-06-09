@@ -12,3 +12,7 @@ LABEL=ROOT                           /sysimage/mutable    ext4  relatime        
 /sysimage/mutable/sysimage/stateless /sysimage/stateless  none  bind                                               0   0
 /sysimage/mutable/boot               /boot                none  bind                                               0   0
 /sysimage/mutable/home               /home                none  bind                                               0   0
+/sysimage/mutable/var/lib/chrony     /var/lib/chrony      none  bind                                               0   0
+/sysimage/mutable/var/lib/bluetooth  /var/lib/bluetooth   none  bind                                               0   0
+/sysimage/mutable/var/log            /var/log             none  bind                                               0   0
+/sysimage/mutable/var/spool          /var/spool           none  bind                                               0   0
