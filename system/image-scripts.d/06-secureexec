@@ -22,6 +22,7 @@ trap 'exit 143' HUP INT QUIT PIPE TERM
 
 cat >"$tmpdir"/suid.allowed <<@@@
 4510 root:messagebus /lib/dbus-1/dbus-daemon-launch-helper
+4710 root:fuse /usr/bin/fusermount3
 4710 root:vmusers /usr/libexec/qemu-bridge-helper
 4711 root:root /usr/lib/consolehelper/priv/auth
 4711 root:root /usr/lib64/chromium/chrome-sandbox
