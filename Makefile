@@ -10,7 +10,6 @@ clean:
 	make -C apt clean
 	make -C kernels clean
 	make -C system clean
-	make -C kickstart clean
 
 apt:
 	make -C apt clean all
