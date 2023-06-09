@@ -48,9 +48,9 @@ INFO_CONTROL_STATES = \
 	gpasswd:restricted          \
 	groupmems:restricted        \
 	mount:unprivileged          \
-	newgidmap:restricted        \
+	newgidmap:wheelonly         \
 	newgrp:restricted           \
-	newuidmap:restricted        \
+	newuidmap:wheelonly         \
 	pam_access:disabled         \
 	pam_mktemp:enabled          \
 	passwd:tcb                  \
