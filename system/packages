@@ -216,6 +216,7 @@ mutt-Maxi
 net-tools
 netcat
 notify-send
+nscd
 nss-utils
 ntpdate
 nvidia-gsp

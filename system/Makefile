@@ -27,6 +27,7 @@ INFO_SYSV_ENABLE_SERVICES = \
 	klogd         \
 	netfs         \
 	network       \
+	nscd          \
 	random        \
 	rpcbind       \
 	seatd         \
