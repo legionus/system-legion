@@ -19,7 +19,7 @@ for login in ${INFO_USER_CREATE-}; do
 	[ -z "$gid" ] ||
 		groupadd -g "$gid" "$login"
 
-	useradd -M -F \
+	useradd -F \
 		${uid:+--uid "$uid"} \
 		${gid:+--gid "$gid"} \
 		${shell:+--shell "$shell"} \
