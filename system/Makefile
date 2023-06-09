@@ -67,6 +67,13 @@ INFO_CONTROL_STATES = \
 	xdg-user-dirs:enabled       \
 	$(NULL)
 
+INFO_ALTERNATIVES = \
+	/usr/bin/bogofilter:/usr/bin/bogofilter-sqlite        \
+	/usr/bin/links:/usr/bin/elinks                        \
+	/usr/bin/vim:/usr/bin/vim-enhanced                    \
+	/usr/lib64/libnssckbi.so:/usr/lib64/nss/libnssckbi.so \
+	$(NULL)
+
 #INFO_SYSTEMD_ENABLE_SERVICES = \
 #	chronyd consolelocker getty@tty1 getty@tty2 getty@tty3 gpm hasher-privd \
 #	powertop rsyncd.socket sshd sysfs

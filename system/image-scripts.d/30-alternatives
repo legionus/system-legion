@@ -1,0 +1,17 @@
+#!/bin/sh -efu
+
+[ -d /etc/alternatives ] ||
+	exit 0
+
+need_update=
+for pair in ${INFO_ALTERNATIVES-}; do
+	alternative="${pair%%:*}"
+	candidate="${pair#*:}"
+
+	alternatives-manual "$alternative" "$candidate"
+
+	need_update=1
+done
+
+[ -z "$need_update" ] ||
+	alternatives-update
