@@ -45,6 +45,7 @@ bogofilter-doc
 bogofilter-sqlite
 bootloader-utils
 bridge-utils
+bzip2-devel
 carps-cups
 cert-sh-functions
 cfdisk
@@ -183,6 +184,12 @@ krb5-kinit
 kup
 less
 lha
+libbpf-devel
+libelf-devel
+libkmod-devel
+liblzma-devel
+libpam-devel
+libzstd-devel
 lld
 lld15.0
 llvm
@@ -231,6 +238,7 @@ openssh-server-control
 openvpn
 osec
 p7zip
+pahole
 pam-config-control
 pam0_console
 pam0_mktemp
@@ -422,3 +430,4 @@ xrandr
 xterm
 xxd
 zip
+zlib-devel
