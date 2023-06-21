@@ -9,6 +9,7 @@ debugfs                  /sys/kernel/debug           debugfs    rw,relatime     
 cgroup2                  /sys/fs/cgroup              cgroup2    rw,nosuid,nodev,noexec,nsdelegate                  0   0
 
 LABEL=ROOT                           /sysimage/mutable    ext4  relatime                                           1   1
+/sysimage/mutable/swap               none                 swap  nofail                                             0   0
 /sysimage/mutable/sysimage/stateless /sysimage/stateless  none  bind                                               0   0
 /sysimage/mutable/boot               /boot                none  bind                                               0   0
 /sysimage/mutable/home               /home                none  bind                                               0   0
