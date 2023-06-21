@@ -37,6 +37,7 @@ basu
 bc
 bind-utils
 binutils
+binutils-devel
 bluez
 bogofilter
 bogofilter-bdb
@@ -189,6 +190,7 @@ libelf-devel
 libkmod-devel
 liblzma-devel
 libpam-devel
+libssl-devel
 libzstd-devel
 lld
 lld15.0
