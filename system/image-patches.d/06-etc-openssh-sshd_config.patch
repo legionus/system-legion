@@ -18,3 +18,16 @@ diff --git a/etc/openssh/sshd_config b/etc/openssh/sshd_config
  #PermitEmptyPasswords no
  
  # Change to yes to enable s/key passwords
+@@ -110,9 +111,9 @@
+ AllowGroups wheel users
+ 
+ # Accept locale environment variables
+-AcceptEnv LANG LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_CTYPE
+-AcceptEnv LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY
+-AcceptEnv LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME
++#AcceptEnv LANG LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_CTYPE
++#AcceptEnv LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY
++#AcceptEnv LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME
+ 
+ # Example of overriding settings on a per-user basis
+ #Match User anoncvs
