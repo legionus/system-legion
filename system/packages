@@ -77,6 +77,7 @@ cups-filters
 curl
 dbus-tools-gui
 dejagnu
+dev86
 dhcp-client
 dialog
 diffstat
@@ -95,6 +96,7 @@ fbset
 fdisk
 fetchmail-daemon
 firefox
+firmware-alsa-sof
 firmware-intel-ucode
 firmware-linux
 flex
@@ -125,6 +127,8 @@ foomatic
 foot
 fuse-sshfs
 fzf
+gcc-c++
+gcc-plugin-devel
 gdb
 gdisk
 gear
@@ -186,11 +190,15 @@ kup
 less
 lha
 libbpf-devel
+libdb4-devel
 libelf-devel
+libgmp-devel
 libkmod-devel
 liblzma-devel
+libmpc-devel
 libpam-devel
 libssl-devel
+libtirpc-devel
 libzstd-devel
 lld
 lld15.0
@@ -336,7 +344,9 @@ psmisc
 psutils
 pulseaudio-system
 pwgen
+python3-module-GitPython
 python3-module-i3ipc
+python3-module-ply
 qemu-audio-alsa
 qemu-audio-oss
 qemu-audio-pa
@@ -358,6 +368,7 @@ rlwrap
 rpcbind
 rpm
 rpm-build
+rpm-build-kernel
 rpm-utils
 rsync
 scdoc
@@ -366,6 +377,7 @@ seatd
 setproctitle
 sfdisk
 sh
+shadow-groups
 shadow-submap
 sharutils
 shellcheck
