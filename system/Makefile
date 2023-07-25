@@ -4,6 +4,10 @@ include $(CONFIGDIR)/config.mk
 
 NULL :=
 
+INFO_DATE        = $(shell date +%Y%m%d)
+INFO_DIST_VENDOR = ALT
+INFO_DIST_REPO   = Sisyphus
+
 INFO_USER_CREATE = legion lkp
 INFO_USER_UID_legion = 500
 INFO_USER_GID_legion = 500
@@ -92,8 +96,7 @@ GLOBAL_WORKROOT=$(HOME)/tmp
 
 COPY_TREE = $(CURDIR)/files
 
-DATE = $(shell date +%Y%m%d)
-IMAGE_NAME = system-$(DATE)
+IMAGE_NAME = system-$(INFO_DATE)
 
 MKI_HANDLER = $(CURDIR)/pack.sh
 EXCLUDES=!/proc/*
