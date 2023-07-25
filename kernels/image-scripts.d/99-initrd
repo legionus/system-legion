@@ -11,13 +11,8 @@ kvers="$(rpm -qa 'kernel-image*' \
 
 cat > /etc/initrd-tmp.mk <<@@@
 AUTODETECT =
-MOUNTPOINTS = \
-        /
-
-MODULES_ADD += \
-        fs-ext4 \
-        pci:v000015B7d00005009sv000015B7sd00005009bc01sc08i02
-
+MOUNTPOINTS = /
+MODULES_ADD += fs-ext4 $INFO_MODALIAS
 FEATURES += \
         add-modules add-udev-rules cleanup compress gpu-drm kbd \
         network rdshell rootfs system-glibc ucode

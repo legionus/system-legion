@@ -14,19 +14,31 @@ IMAGE_NAME = kernel-
 MKI_HANDLER = $(CURDIR)/pack.sh
 MKI_PACK_RESULTS = custom:$(IMAGE_NAME):$(MKI_HANDLER)
 
-IMAGE_PACKAGES = \
-	console-scripts \
+MAKE_INITRD_PACKAGES = \
+	make-initrd \
+	make-initrd-pipeline-stateless \
+	make-initrd-ucode \
+	#
+
+KERNEL_PACKAGES_SET_1 = \
 	kernel-image-centos \
 	kernel-modules-alsa-centos \
 	kernel-modules-drm-centos \
 	kernel-modules-media-centos \
 	kernel-modules-nvidia-open-centos \
-	\
-	make-initrd \
-	make-initrd-pipeline-stateless \
-	make-initrd-ucode \
-	strace \
 	#
+
+KERNEL_PACKAGES_SET_2 = \
+	kernel-image-un-def \
+	#
+
+IMAGE_PACKAGES = \
+	console-scripts strace \
+	$(KERNEL_PACKAGES_SET_1) \
+	$(MAKE_INITRD_PACKAGES)
+
+INFO_MODALIAS = \
+        pci:v000015B7d00005009sv000015B7sd00005009bc01sc08i02
 
 include $(CONFIGDIR)/targets.mk
 
