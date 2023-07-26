@@ -1,3 +1,7 @@
+MAKESHELL = /bin/bash
+CURNAME = $(notdir $(CURDIR))
+LOGDIR = $(HOME)/sysimage
+
 export GLOBAL_HSH_APT_CONFIG=$(CURDIR)/apt/conf
 export GLOBAL_VERBOSE=1
 export CLEANUP_OUTDIR=
@@ -11,14 +15,23 @@ clean:
 	make -C kernels clean
 	make -C system clean
 
+LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
 apt:
-	make -C apt clean all
+	@echo "Processing '$@' and logs in the $(LOGFILE) ..."
+	@set -o errexit -o pipefail; \
+	  make -C apt clean all 2>&1 | tee "$(LOGFILE)"
 
+LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
 kernels: apt
-	make -C kernels clean all
+	@echo "Processing '$@' and logs in the $(LOGFILE) ..."
+	@set -o errexit -o pipefail; \
+	  make -C kernels clean all 2>&1 | tee "$(LOGFILE)"
 
+LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
 system: apt
-	make -C system clean all
+	@echo "Processing '$@' and logs in the $(LOGFILE) ..."
+	@set -o errexit -o pipefail; \
+	  make -C system clean all 2>&1 | tee "$(LOGFILE)"
 	@if [ ! -e /sysimage/stateless/local-latest.star ]; then \
 	  $(CURDIR)/init-local-star && \
 	  printf '%s\n' \
