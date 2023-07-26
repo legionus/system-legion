@@ -7,8 +7,10 @@ ln -s /run/lock /var/lock
 ln -s /run /var/run
 ln -s /tmp /var/tmp
 
-mv -T /root /home/root
-ln -s home/root /root
+if [ ! -d /home/root ]; then
+	mv -T /root /home/root
+	ln -s home/root /root
+fi
 
 mkdir -p -- \
 	/sysimage/mutable \

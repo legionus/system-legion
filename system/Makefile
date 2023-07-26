@@ -89,6 +89,7 @@ INFO_ALTERNATIVES = \
 
 #INFO_SYATEMD_DEFAULT_TARGET = multi-user.target
 
+include $(CURDIR)/run-image-predb.mk
 include $(CURDIR)/run-image-patches.mk
 
 OUTDIR=$(HOME)/sysimage/stateless
@@ -106,4 +107,4 @@ IMAGE_PACKAGES = $(CURDIR)/packages
 
 include $(CONFIGDIR)/targets.mk
 
-all: build-image copy-tree run-image-patches run-image-scripts pack-image
+all: build-image copy-tree run-image-patches run-image-scripts pack-image clean-image-predb
