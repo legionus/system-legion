@@ -90,7 +90,6 @@ INFO_ALTERNATIVES = \
 #INFO_SYATEMD_DEFAULT_TARGET = multi-user.target
 
 include $(CURDIR)/run-image-predb.mk
-include $(CURDIR)/run-image-patches.mk
 
 OUTDIR=$(HOME)/sysimage/stateless
 GLOBAL_WORKROOT=$(HOME)/tmp
