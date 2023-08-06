@@ -9,8 +9,8 @@ INFO_DIST_VENDOR = ALT
 INFO_DIST_REPO   = Sisyphus
 
 INFO_USER_CREATE = legion lkp
-INFO_USER_UID_legion = 500
-INFO_USER_GID_legion = 500
+INFO_USER_UID_legion = 1000
+INFO_USER_GID_legion = 1000
 INFO_USER_GROUPS_legion = users,netadmin,proc,uucp,vmusers,wheel,xgrp,fuse,input,audio,video
 INFO_USER_SHELL_legion = /bin/bash
 INFO_USER_HASHER_legion = true

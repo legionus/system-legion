@@ -61,11 +61,11 @@ radio:x:83:
 apache:x:96:
 nobody:x:99:
 users:x:100:
-_gnupg:x:999:
+messagebus:x:999:
 utempter:x:998:
 dhcp:x:997:
 crontab:x:996:
-messagebus:x:995:
+fetchmail:x:995:
 syslogd:x:994:
 klogd:x:993:
 _keytab:x:992:
@@ -82,7 +82,6 @@ colord:x:982:
 fuse:x:981:
 cuse:x:980:
 hashman:x:979:
-fetchmail:x:1000:
 openvpn:x:978:
 pulse:x:977:
 sshd:x:976:
@@ -94,3 +93,4 @@ iputils:x:971:
 netadmin:x:970:
 osec:x:969:
 xgrp:x:968:
+_gnupg:x:967:
