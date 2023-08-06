@@ -49,8 +49,8 @@ INFO_CONTROL_STATES = \
 	crontab:public              \
 	cups:server                 \
 	fusermount:fuseonly         \
-	gpasswd:restricted          \
-	groupmems:restricted        \
+	gpasswd:wheelonly           \
+	groupmems:wheelonly         \
 	mount:unprivileged          \
 	newgidmap:wheelonly         \
 	newgrp:restricted           \
