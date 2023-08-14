@@ -381,6 +381,7 @@ shadow-groups
 shadow-submap
 sharutils
 shellcheck
+slogin
 socat
 sparse
 sqlite3
