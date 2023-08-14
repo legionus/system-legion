@@ -29,6 +29,7 @@ INFO_SYSV_ENABLE_SERVICES = \
 	keytable      \
 	kheaders      \
 	klogd         \
+	messagebus    \
 	netfs         \
 	network       \
 	nscd          \
