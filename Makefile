@@ -40,3 +40,6 @@ system: apt
 
 sync:
 	@rsync --remove-source-files -vrlp -- $(HOME)/sysimage/stateless/ /sysimage/stateless/
+	@for d in $(HOME)/sysimage/stateless/kernel-*; do \
+	  [ ! -e "$$d" ] || rmdir -- "$$d"; \
+	done
