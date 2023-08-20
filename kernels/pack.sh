@@ -30,6 +30,7 @@ for i in boot/vmlinuz-*; do
 	ln -sn initrd-"$i".img "$outdir"/initrd.img
 
 	tar --numeric-owner "$@" \
+		--xattrs \
 		--use-compress-program='zstd -19 -T0 -v' \
 		-cf "$outdir/$modname" lib/modules/"$i"
 done

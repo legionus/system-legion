@@ -26,6 +26,7 @@ if [ -s .SOURCE_DATE_EPOCH ]; then
 fi
 
 tar --numeric-owner --exclude 'boot/*' "$@" \
+	--xattrs \
 	--use-compress-program='zstd -19 -T0 -v' \
 	-cf "$out" .
 
