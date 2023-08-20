@@ -141,5 +141,15 @@ for d in $dirs; do
 	usr_dirs="$usr_dirs /usr/$d"
 done
 
+find $usr_dirs -xdev -type l >"$tmpdir"/list
+sort -o "$tmpdir"/list{,}
+
+while read -r link; do {
+	target="$(readlink "$link")"
+	if [ -z "${target##../*}" ] && ! realpath "$link" >/dev/null 2>&1; then
+		ln -v -snf "../$target" "$link"
+	fi
+} </dev/null; done <"$tmpdir"/list
+
 # Check for broken symlinks.
 find $usr_dirs -xdev -type l -exec realpath {} \+ >/dev/null
