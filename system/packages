@@ -338,6 +338,7 @@ perl-XML-SAX-Base
 perl-XML-Simple
 pinentry-bash
 pinentry-common
+podman
 procmail
 procps
 psmisc
