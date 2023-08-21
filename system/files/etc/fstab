@@ -7,6 +7,7 @@ sysfs                    /sys                        sysfs      rw,nosuid,noexec
 efivarfs                 /sys/firmware/efi/efivars   efivarfs   rw,nosuid,nodev,noexec                             0   0
 pstore                   /sys/fs/pstore              pstore     rw,nosuid,nodev,noexec                             0   0
 debugfs                  /sys/kernel/debug           debugfs    rw,relatime                                        0   0
+securityfs               /sys/kernel/security        securityfs rw,relatime                                        0   0
 cgroup2                  /sys/fs/cgroup              cgroup2    rw,nosuid,nodev,noexec,nsdelegate                  0   0
 
 LABEL=ROOT                           /sysimage/mutable    ext4  relatime                                           1   1
