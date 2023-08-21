@@ -16,6 +16,7 @@ altlinux-freedesktop-menu-shallow-menu
 amixer
 anacron
 aplay
+apparmor
 apt-conf-ignore-systemd
 apt-conf-sisyphus
 apt-https

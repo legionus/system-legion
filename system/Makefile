@@ -20,6 +20,7 @@ INFO_TIME_ZONE = Europe/Prague
 INFO_SYSV_ENABLE_SERVICES = \
 	acpid         \
 	anacron       \
+	apparmor      \
 	chronyd       \
 	consolelocker \
 	consolesaver  \
