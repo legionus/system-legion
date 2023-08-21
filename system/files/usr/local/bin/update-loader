@@ -4,6 +4,13 @@
 
 imgdir=/sysimage/stateless
 
+cfg=/etc/sysconfig/loader
+[ ! -f "$cfg" ] || . "$cfg"
+
+stateless_init_size="${boot_stateless_init_size:-10G}"
+stateless_size_mult="${boot_stateless_size_mult:-0}"
+security="${boot_security-}"
+
 boot_parameters()
 {
 	local reldir="${imgdir#/}"
@@ -13,9 +20,11 @@ boot_parameters()
 		root=pipeline pipeline=waitdev,mountfs,stateless,rootfs \
 		waitdev=LABEL=ROOT \
 		mountfs=dev \
-		stateless_init_size=10G \
-		stateless_size_mult=0 \
-		stateless_images="$reldir/system-$1.star,$reldir/local-$2.star,$reldir/kernel-$3/kmodules.star"
+		stateless_init_size="$stateless_init_size" \
+		stateless_size_mult="$stateless_size_mult" \
+		stateless_images="$reldir/system-$1.star,$reldir/local-$2.star,$reldir/kernel-$3/kmodules.star" \
+		${security:+security="$security"} \
+	#
 }
 
 config_grub()

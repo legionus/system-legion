@@ -1,0 +1,3 @@
+boot_stateless_init_size="10G"
+boot_stateless_size_mult="0"
+boot_security="apparmor"
