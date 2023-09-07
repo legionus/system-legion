@@ -38,7 +38,6 @@ INFO_SYSV_ENABLE_SERVICES = \
 	rpcbind       \
 	seatd         \
 	sshd          \
-	sysfs         \
 	syslogd       \
 	udevd         \
 	udevd-final   \
