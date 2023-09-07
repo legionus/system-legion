@@ -3,7 +3,7 @@
 chkconfig="$(type -P chkconfig)" ||
 	exit 0
 
-for s in $(/sbin/chkconfig --type sysv --list | cut -f1 -d\  ); do
+for s in $(/sbin/chkconfig --type sysv --list | cut -f1); do
 	"$chkconfig" "$s" off
 done
 
