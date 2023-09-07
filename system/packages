@@ -348,6 +348,7 @@ pulseaudio-system
 pwgen
 python3-module-GitPython
 python3-module-i3ipc
+python3-module-jira
 python3-module-ply
 qemu-audio-alsa
 qemu-audio-oss
