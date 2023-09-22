@@ -12,7 +12,7 @@ kvers="$(rpm -qa 'kernel-image*' \
 cat > /etc/initrd-tmp.mk <<@@@
 AUTODETECT =
 MOUNTPOINTS = /
-MODULES_ADD += fs-ext4 $INFO_MODALIAS
+MODULES_ADD += fs-ext4
 FEATURES += \
         add-modules add-udev-rules cleanup compress gpu-drm kbd \
         network rdshell rootfs system-glibc ucode

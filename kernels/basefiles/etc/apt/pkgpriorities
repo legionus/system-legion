@@ -1,0 +1,8 @@
+Important:
+  basesystem
+Required:
+  apt
+  sysvinit
+  openssh-server
+Standard:
+  altlinux-release-sisyphus

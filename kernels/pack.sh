@@ -1,39 +1,6 @@
 #!/bin/sh -eu
 
-: "${SUBDIR?}"
-: "${OUTNAME?}"
-
 modname=kmodules.star
-
-cd /.image/"$SUBDIR"
-
-set --
-if [ -s .SOURCE_DATE_EPOCH ]; then
-	SOURCE_DATE_EPOCH="$(cat .SOURCE_DATE_EPOCH)"
-	export SOURCE_DATE_EPOCH
-	set -- --clamp-mtime --mtime=@"$SOURCE_DATE_EPOCH"
-fi
-
-for i in boot/vmlinuz-*; do
-	i="${i#boot/vmlinuz-}"
-	flavour="${i%-*}"
-	flavour="${flavour#*-}"
-	echo packing kernel "$i" >&2
-	outdir="$OUTNAME$i"
-	mkdir -p "$outdir"
-
-	cp ./boot/vmlinuz-"$i" -t "$outdir"
-	cp ./boot/initrd-"$i".img -t "$outdir"
-	ln -sn vmlinuz-"$i" "$outdir"/vmlinuz-"$flavour"
-	ln -sn vmlinuz-"$i" "$outdir"/vmlinuz
-	ln -sn initrd-"$i".img "$outdir"/initrd-"$flavour".img
-	ln -sn initrd-"$i".img "$outdir"/initrd.img
-
-	tar --numeric-owner "$@" \
-		--xattrs \
-		--use-compress-program='zstd -19 -T0 -v' \
-		-cf "$outdir/$modname" lib/modules/"$i"
-done
 
 print_path() {
 	local prefix="$1"; shift
@@ -49,9 +16,39 @@ print_path() {
 	echo "** $prefix: $name [$size] ($checksum)" >&2
 }
 
+cd /.image
+
+set --
+if [ -s /.image/.SOURCE_DATE_EPOCH ]; then
+	SOURCE_DATE_EPOCH="$(cat /.image/.SOURCE_DATE_EPOCH)"
+	export SOURCE_DATE_EPOCH
+	set -- --clamp-mtime --mtime=@"$SOURCE_DATE_EPOCH"
+fi
+
 for i in boot/vmlinuz-*; do
 	i="${i#boot/vmlinuz-}"
-	outdir="$OUTNAME$i"
+
+	flavour="${i%-*}"
+	flavour="${flavour#*-}"
+
+	echo packing kernel "$i" >&2
+
+	outdir="/.host/out/kernel-$i"
+	mkdir -p -- "$outdir"
+
+	cp ./boot/vmlinuz-"$i" -t "$outdir"
+	cp ./boot/initrd-"$i".img -t "$outdir"
+
+	ln -snf vmlinuz-"$i" "$outdir"/vmlinuz-"$flavour"
+	ln -snf vmlinuz-"$i" "$outdir"/vmlinuz
+	ln -snf initrd-"$i".img "$outdir"/initrd-"$flavour".img
+	ln -snf initrd-"$i".img "$outdir"/initrd.img
+
+	tar --numeric-owner "$@" \
+		--xattrs \
+		--use-compress-program='zstd -19 -T0 -v' \
+		-cf "$outdir/$modname" lib/modules/"$i"
+
 	print_path kernel "$outdir"/vmlinuz-"$i"
 	print_path initrd "$outdir"/initrd-"$i".img
 	print_path modules "$outdir/$modname"
