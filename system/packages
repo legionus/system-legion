@@ -349,6 +349,7 @@ pwgen
 python3-module-GitPython
 python3-module-i3ipc
 python3-module-jira
+python3-module-mypy
 python3-module-ply
 qemu-audio-alsa
 qemu-audio-oss
@@ -414,6 +415,7 @@ time
 tinycdb
 tmux
 traceroute
+tzdata
 udev-rule-generator
 udev-rule-generator-net
 unrar

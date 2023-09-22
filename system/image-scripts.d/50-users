@@ -36,6 +36,7 @@ for login in ${INFO_USER_CREATE-}; do
 	esac
 done
 
-usermod --home /home/root root
+#usermod --home /home/root root
+sed -i -r -e '/^root:x:0:0:/{ s@:/root:@:/home/root:@ }' /etc/passwd
 
 exit $rc

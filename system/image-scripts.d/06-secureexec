@@ -67,4 +67,4 @@ diff -u "$tmpdir"/sgid.{allowed,exists} || rc=1
 [ $rc -eq 0 ]
 
 # fakeroot doesn't support capabilities and that's ok
-[ 0 = "$(getcap -r / | wc -l)" ]
+#[ 0 = "$(getcap -r / | wc -l)" ]

@@ -1,8 +1,17 @@
-CONFIGDIR = /usr/share/mkimage
+VENDOR = altlinux
 
-include $(CONFIGDIR)/config.mk
+CACHEDIR = $(HOME)/sysimage/cache
 
-NULL :=
+COMPRESS = zstd -19 -T0 -v
+IMAGEFILE = $(HOME)/sysimage/stateless/sysimage.tar.zstd
+
+BASEIMAGE_FILES = $(CURDIR)/basefiles
+BASEIMAGE_PACKAGES = apt-https ca-certificates
+
+IMAGE_PACKAGES = $(CURDIR)/packages
+IMAGE_PREFILES = $(CURDIR)/image-predb-files
+
+COPY_TREE = $(CURDIR)/files
 
 INFO_DATE        = $(shell date +%Y%m%d)
 INFO_DIST_VENDOR = ALT
@@ -90,21 +99,7 @@ INFO_ALTERNATIVES = \
 
 #INFO_SYATEMD_DEFAULT_TARGET = multi-user.target
 
-include $(CURDIR)/run-image-predb.mk
+all: build-image copy-tree apply-patches run-scripts pack-image
+#all: build-image apply-patches
 
-OUTDIR=$(HOME)/sysimage/stateless
-GLOBAL_WORKROOT=$(HOME)/tmp
-
-COPY_TREE = $(CURDIR)/files
-
-IMAGE_NAME = system-$(INFO_DATE)
-
-MKI_HANDLER = $(CURDIR)/pack.sh
-EXCLUDES=!/proc/*
-MKI_PACK_RESULTS = custom:$(IMAGE_NAME):$(MKI_HANDLER):$(EXCLUDES)
-
-IMAGE_PACKAGES = $(CURDIR)/packages
-
-include $(CONFIGDIR)/targets.mk
-
-all: build-image copy-tree run-image-patches run-image-scripts pack-image clean-image-predb
+include $(HOME)/scm/sysimage/sysimage.mk
