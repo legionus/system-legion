@@ -1,9 +1,0 @@
-Dir::Etc::main "/dev/null";
-Dir::Etc::parts "/var/empty";
-Dir::Etc::SourceList "@CURDIR@/list";
-Dir::Etc::SourceParts "/var/empty";
-Dir::Etc::pkgpriorities "@CURDIR@/pkgpriorities";
-Dir::Etc::preferences "@CURDIR@/preferences";
-Dir::Etc::preferencesparts "/var/empty";
-Dir::Cache::archives "@HOME@/sysimage/apt/archive";
-Dir::State "@HOME@/sysimage/apt/state/";
