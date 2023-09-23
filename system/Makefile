@@ -1,10 +1,12 @@
 VENDOR = altlinux
 
+CURDATE = $(shell date +%Y%m%d)
+
 CACHEDIR = $(HOME)/sysimage/cache
 OUTDIR = $(HOME)/sysimage/stateless
 
 COMPRESS = zstd -19 -T0 -v
-IMAGENAME = sysimage.tar.zstd
+IMAGENAME = system-$(CURDATE).star
 
 BASEIMAGE_FILES = $(CURDIR)/basefiles
 BASEIMAGE_PACKAGES = apt-https ca-certificates
@@ -14,7 +16,7 @@ IMAGE_PREFILES = $(CURDIR)/image-predb-files
 
 COPY_TREE = $(CURDIR)/files
 
-INFO_DATE        = $(shell date +%Y%m%d)
+INFO_DATE        = $(CURDATE)
 INFO_DIST_VENDOR = ALT
 INFO_DIST_REPO   = Sisyphus
 

@@ -4,3 +4,4 @@ rm -f /etc/machine-id /var/lib/dbus/machine-id
 rm -f /var/lib/systemd/random-seed
 rm -f /var/lib/rpm/__db*
 rm -f /var/cache/ldconfig/aux-cache
+rm -f /.SOURCE_DATE_EPOCH
