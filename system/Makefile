@@ -1,9 +1,10 @@
 VENDOR = altlinux
 
 CACHEDIR = $(HOME)/sysimage/cache
+OUTDIR = $(HOME)/sysimage/stateless
 
 COMPRESS = zstd -19 -T0 -v
-IMAGEFILE = $(HOME)/sysimage/stateless/sysimage.tar.zstd
+IMAGENAME = sysimage.tar.zstd
 
 BASEIMAGE_FILES = $(CURDIR)/basefiles
 BASEIMAGE_PACKAGES = apt-https ca-certificates
