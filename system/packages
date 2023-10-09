@@ -45,7 +45,6 @@ bogofilter-bdb
 bogofilter-common
 bogofilter-doc
 bogofilter-sqlite
-bootloader-utils
 bridge-utils
 bzip2-devel
 carps-cups
@@ -340,6 +339,8 @@ perl-XML-Simple
 pinentry-bash
 pinentry-common
 podman
+postfix-
+postfix-control-
 procmail
 procps
 psmisc
@@ -420,7 +421,6 @@ udev-rule-generator
 udev-rule-generator-net
 unrar
 unzip
-update-kernel
 usb-modeswitch
 usbutils
 util-linux-control
