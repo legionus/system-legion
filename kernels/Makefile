@@ -8,6 +8,9 @@ BASEIMAGE_PACKAGES = apt-https ca-certificates
 
 IMAGE_PACKAGES = $(CURDIR)/packages
 
+INFO_MODALIAS = \
+	pci:v000015B7d00005009sv000015B7sd00005009bc01sc08i02
+
 PACK_IMAGE = $(CURDIR)/pack.sh
 
 all: build-image run-scripts pack-image

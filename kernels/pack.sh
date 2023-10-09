@@ -19,13 +19,21 @@ print_path() {
 cd /.image
 
 set --
-if [ -s /.image/.SOURCE_DATE_EPOCH ]; then
-	SOURCE_DATE_EPOCH="$(cat /.image/.SOURCE_DATE_EPOCH)"
+if [ -s ./.SOURCE_DATE_EPOCH ]; then
+	SOURCE_DATE_EPOCH="$(cat ./.SOURCE_DATE_EPOCH)"
 	export SOURCE_DATE_EPOCH
 	set -- --clamp-mtime --mtime=@"$SOURCE_DATE_EPOCH"
 fi
 
 for i in boot/vmlinuz-*; do
+	if [ ! -e "$i" ]; then
+		echo >&2 "ERROR: unable to find /boot/vmlinuz-<KVER>"
+		exit 1
+	fi
+
+	[ ! -L "$i" ] ||
+		continue
+
 	i="${i#boot/vmlinuz-}"
 
 	flavour="${i%-*}"
@@ -36,8 +44,8 @@ for i in boot/vmlinuz-*; do
 	outdir="/.host/out/kernel-$i"
 	mkdir -p -- "$outdir"
 
-	cp ./boot/vmlinuz-"$i" -t "$outdir"
-	cp ./boot/initrd-"$i".img -t "$outdir"
+	cp boot/vmlinuz-"$i" -t "$outdir"
+	cp boot/initrd-"$i".img -t "$outdir"
 
 	ln -snf vmlinuz-"$i" "$outdir"/vmlinuz-"$flavour"
 	ln -snf vmlinuz-"$i" "$outdir"/vmlinuz
