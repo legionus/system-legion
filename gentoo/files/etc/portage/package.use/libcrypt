@@ -1,0 +1,2 @@
+virtual/libcrypt static-libs
+sys-libs/libxcrypt static-libs

@@ -1,0 +1,5 @@
+#!/bin/sh -efu
+
+if [ -x /bin/dash ] && [ ! -e /bin/ash ]; then
+	ln -s dash /bin/ash
+fi

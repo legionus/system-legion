@@ -1,0 +1,134 @@
+#!/bin/bash -efu
+
+. shell-error
+
+if [ "${__UPDATE_SYSTEM_MOUNTNS-}" != "$$" ]; then
+	[ "$UID" -eq 0 ] ||
+		fatal "only root can run this utility."
+	export __UPDATE_SYSTEM_MOUNTNS="$$"
+	exec unshare --mount "$0" "$@"
+	exit 1
+fi
+
+. shell-args
+
+archives=()
+pack_exclude=()
+compress=
+shell="bash --norc"
+outname="local-$(date +%Y%m%d).star"
+
+[ -d /sysimage/stateless ] &&
+	outfile="/sysimage/stateless/$outname" ||
+	outfile="/tmp/$outname"
+
+show_help()
+{
+	cat <<EOF
+Usage: $PROG [options]
+
+The program allows you to get a snapshot of the changes made in the system. The
+program does not mount any partitions other than the root because in a stateless
+system, static changes are applied top of the base root image.
+
+Options:
+  -a, --add=ARCHIVE          Apply the archive for further editing. Files from
+                             this archive will be included in the output archive.
+  -e, --exclude=PATTERN      Exclude files matching PATTERN, a glob(3)-style
+                             wildcard pattern.
+  -o, --output=ARCHIVE       Change the name of the output archive
+                             (default: $outfile).
+  -s, --shell=COMMAND        Use COMMAND to change system state
+                             (default: $shell).
+  -I, --use-compress-program=COMMAND
+                             Filter data through COMMAND. The argument can
+                             contain command line options.
+  -h, --help                 Show this text and exit.
+
+Report to authors.
+
+EOF
+	exit
+}
+
+TEMP=`getopt -n $PROG -o "a:,e:,o:,s:,I:,h" -l "add:,exclude:,shell:,compress-program:,output:,help" -- "$@"` ||
+	show_usage
+eval set -- "$TEMP"
+
+while :; do
+	case "$1" in
+		-a|--add)
+			archives+=("$(opt_check_read "$1" "$2")")
+			shift
+			;;
+		-e|--exclude) shift
+			pack_exclude+=("$1")
+			;;
+		-o|--output) shift
+			outfile="$1"
+			;;
+		-s|--shell) shift
+			[ -n "$1" ] ||
+				fatal "shell command can't be empty string"
+			shell="$1"
+			;;
+		-I|--compress-program) shift
+			compress="$1"
+			;;
+		-h|--help)
+			show_help
+			;;
+		--) shift; break
+			;;
+	esac
+	shift
+done
+
+workdir="/tmp/$PROG"
+
+mkdir -p -- \
+	"$workdir"
+
+mount -t tmpfs tmpfs "$workdir"
+
+mkdir -- \
+	"$workdir/fs" \
+	"$workdir/overlay" \
+	"$workdir/work"
+
+mount \
+	-o "lowerdir=/,upperdir=$workdir/fs,workdir=$workdir/work" \
+	-t overlay \
+	overlay "$workdir/overlay"
+
+for archive in "${archives[@]}"; do
+	message "Applying archive: $archive"
+	tar --transform 's,^/,./,' -C "$workdir/overlay" --overwrite -xvf "$archive"
+done
+
+findmnt --kernel --list --noheadings --pseudo --types notmpfs,nooverlay --output TARGET |
+while read -r n; do
+	mount --bind "$n" "$workdir/overlay$n"
+done
+mount -t tmpfs tmpfs "$workdir/overlay/tmp"
+
+PS1='[update-system \W]$ ' \
+unshare --root="$workdir/overlay" $shell ||
+	rc=$?
+
+set --
+for o in "${pack_exclude[@]}"; do
+	[ -n "${o##/*}" ] ||
+		o=".$o"
+	set -- "$@" --exclude "$o"
+done
+
+[ -z "$compress" ] ||
+	set -- "$@" --use-compress-program="$compress"
+
+message "Creating new snapshot: $outfile"
+( cd "$workdir/fs" && find . -mindepth 1 \! \( -type c -a -perm 0 \) -print ) |
+	sort -d |
+	tar "$@" --no-recursion -C "$workdir/fs" -T- -cvf "$outfile"
+
+exit ${rc:-0}

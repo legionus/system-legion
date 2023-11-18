@@ -1,0 +1,17 @@
+diff --git a/etc/portage/make.conf b/etc/portage/make.conf
+--- a/etc/portage/make.conf
++++ b/etc/portage/make.conf
+@@ -150,11 +150,13 @@
+ #     selectively prune obsolete files from this directory, see
+ #     eclean from the gentoolkit package.
+ #DISTDIR=/var/cache/distfiles
++DISTDIR=/sysimage/cache/gentoo/distfiles
+ #
+ # PKGDIR is the location of binary packages that you can have created
+ #     with '--buildpkg' or '-b' while emerging a package. This can get
+ #     up to several hundred megs, or even a few gigs.
+ #PKGDIR=/var/cache/binpkgs
++PKGDIR=/sysimage/cache/gentoo/binpkgs
+ #
+ # PORTAGE_LOGDIR is the location where portage will store all the logs it
+ #     creates from each individual merge. They are stored as

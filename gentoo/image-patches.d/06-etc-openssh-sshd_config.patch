@@ -1,0 +1,19 @@
+diff --git a/etc/ssh/sshd_config b/etc/ssh/sshd_config
+--- a/etc/ssh/sshd_config
++++ b/etc/ssh/sshd_config
+@@ -14,6 +14,7 @@
+ #AddressFamily any
+ #ListenAddress 0.0.0.0
+ #ListenAddress ::
++ListenAddress 127.0.0.1
+ 
+ #HostKey /etc/ssh/ssh_host_rsa_key
+ #HostKey /etc/ssh/ssh_host_ecdsa_key
+@@ -55,6 +56,7 @@
+ 
+ # To disable tunneled clear text passwords, change to no here!
+ #PasswordAuthentication yes
++PasswordAuthentication no
+ #PermitEmptyPasswords no
+ 
+ # Change to no to disable s/key passwords

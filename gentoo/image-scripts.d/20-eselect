@@ -1,0 +1,11 @@
+#!/bin/sh -efu
+
+eselect locale set C.UTF8
+
+find /etc/fonts/conf.avail -name '*.conf' -printf '%f\n' |
+	xargs -ri eselect fontconfig disable '{}'
+
+for n in "google-droid-" "noto-" "dejavu-" "liberation"; do
+	find /etc/fonts/conf.avail -name "*-${n}*.conf" -printf '%f\n' |
+		xargs -ri eselect fontconfig enable '{}'
+done

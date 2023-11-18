@@ -36,6 +36,7 @@ bash-completion-kmod
 bash-completion-util-linux
 basu
 bc
+bemenu
 bind-utils
 binutils
 binutils-devel
@@ -83,7 +84,6 @@ dialog
 diffstat
 dirsplit
 djview4
-dmenu-wl
 dosfstools
 e2fsprogs
 efibootmgr
@@ -352,6 +352,8 @@ python3-module-i3ipc
 python3-module-jira
 python3-module-mypy
 python3-module-ply
+python3-module-pylint
+python3-module-tabulate
 qemu-audio-alsa
 qemu-audio-oss
 qemu-audio-pa

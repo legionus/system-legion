@@ -1,0 +1,210 @@
+#!/bin/bash -efu
+
+. shell-error
+
+tab=$'\t'
+
+action=help
+if [ "$#" -gt 0 ]; then
+	action="$1"
+	shift
+fi
+
+cd /sysimage/stateless
+
+kernel_images=()
+readarray -t kernel_images < <(
+	find . -type d -name 'kernel-*' -printf '%f\n' |
+		sort
+)
+
+system_images=()
+readarray -t system_images < <(
+	find . -type f -name 'system-*.star' -printf '%f\n' |
+		sort
+)
+
+local_images=()
+readarray -t local_images < <(
+	find . -type f -name 'local-*.star' -printf '%f\n' |
+		sort
+)
+
+kernel_latest="$(readlink kernel-latest)"
+image_latest="$( readlink system-stable.star)"
+local_latest="$( readlink local-latest.star)"
+
+kernel_booted="kernel-$(uname -r)"
+image_booted=
+local_booted=
+
+set_current_images()
+{
+	local CMDLINE v
+
+	read -r CMDLINE < /proc/cmdline
+	set -- $CMDLINE
+
+	for v in "$@"; do
+		[ -z "${v##stateless_images=*}" ] ||
+			continue
+		v="${v#stateless_images=}"
+
+		while [ -n "$v" ]; do
+			img="${v%%,*}"
+
+			[ -z "${v##*,*}" ] &&
+				v="${v#*,}" ||
+				v=''
+
+			case "${img##*/}" in
+				local-latest.star)  local_booted="$local_latest" ;;
+				local-*.star)       local_booted="${img##*/}"    ;;
+				system-stable.star) image_booted="$image_latest" ;;
+				system-*.star)      image_booted="${img##*/}"    ;;
+			esac
+		done
+
+		break
+	done
+}
+
+list_kernel()
+{
+	local i iamge
+
+	i=1
+	#printf 'System stars (Latest/Booted):\n\n'
+
+	for image in "${kernel_images[@]}"; do
+		status=
+		[ "$image" != "$kernel_latest" ] && status+='-' || status+='L'
+		[ "$image" != "$kernel_booted" ] && status+='-' || status+='B'
+
+		printf '%d\t%s\t%s\n' "$i" "$status" "$image"
+
+		i=$(( $i + 1 ))
+	done |
+		column --table \
+			--separator "$tab" \
+			--table-columns 'NUM,STATUS,NAME' \
+			--table-right 'NUM'
+	printf '\n'
+
+}
+
+list_system()
+{
+	local i iamge
+
+	i=1
+	#printf 'System stars (Latest/Booted):\n\n'
+
+	for image in "${system_images[@]}"; do
+		status=
+		[ "$image" != "$image_latest" ] && status+='-' || status+='L'
+		[ "$image" != "$image_booted" ] && status+='-' || status+='B'
+
+		size="$(stat -c '%s' "$image")"
+		size="$(numfmt --to=iec-i --suffix=B "$size")"
+
+		printf '%d\t%s\t%s\t%s\n' "$i" "$status" "$size" "${image%.star}"
+
+		i=$(( $i + 1 ))
+	done |
+		column --table \
+			--separator "$tab" \
+			--table-columns 'NUM,STATUS,SIZE,NAME' \
+			--table-right 'NUM'
+	printf '\n'
+}
+
+list_local()
+{
+	local i image
+
+	i=1
+	#printf 'Local stars (Latest/Booted):\n\n'
+
+	for image in "${local_images[@]}"; do
+		status=
+		[ "$image" != "$local_latest" ] && status+='-' || status+='L'
+		[ "$image" != "$local_booted" ] && status+='-' || status+='B'
+
+		size="$(stat -c '%s' "$image")"
+		size="$(numfmt --to=iec-i --suffix=B "$size")"
+
+		printf '%d\t%s\t%s\t%s\n' "$i" "$status" "$size" "${image%.star}"
+
+		i=$(( $i + 1 ))
+	done |
+		column --table \
+			--separator "$tab" \
+			--table-columns 'NUM,STATUS,SIZE,NAME' \
+			--table-right 'NUM'
+	printf '\n'
+}
+
+set_symlink()
+{
+	local i arg arr prefix linkname
+
+	declare -n "arr=$1"; shift
+	prefix="$1"; shift
+	linkname="$1"; shift
+	arg="$1"; shift
+
+	if [ -n "$arg" ] && [ -z "${arg##$prefix*}" ]; then
+		for i in "${!arr[@]}"; do
+			printf 'arr=%s\n' "${arr[$i]}"
+			if [ "$arg" = "${arr[$i]%.star}" ]; then
+				arg=$(( $i + 1 ))
+				break
+			fi
+		done
+
+		[ -n "${arg##$prefix*}" ] ||
+			fatal "unknown image: $arg"
+	fi
+
+	[ -n "$arg" ] || arg="${#arr[@]}"
+
+	arg=$(( $arg - 1 ))
+
+	[ "$arg" -ge 0 ] ||
+		fatal "index too small"
+
+	[ "$arg" -lt ${#arr[@]} ] ||
+		fatal "index too big"
+
+	ln -snfv -- "${arr[$arg]}" "$linkname"
+}
+
+set_current_images
+
+#echo "image_booted=$image_booted"
+#echo "local_booted=$local_booted"
+
+case "$action" in
+	latest-kernel) set_symlink kernel_images "kernel-" "kernel-latest"      "${1-}" ;;
+	latest-system) set_symlink system_images "system-" "system-stable.star" "${1-}" ;;
+	latest-local)  set_symlink local_images  "local-"  "local-latest.star"  "${1-}" ;;
+	list)
+		[ "$#" -gt 0 ] ||
+			set -- kernel system local
+
+		for arg in "$@"; do
+			case "$arg" in
+				k|kern|kernel) list_kernel ;;
+				s|sys|system)  list_system ;;
+				l|loc|local)   list_local  ;;
+			esac
+		done
+		;;
+	help)
+		echo "Usage: $PROG list [{system|local}]"
+		echo "   or: $PROG latest-kernel INDEX"
+		echo "   or: $PROG latest-system INDEX"
+		echo "   or: $PROG latest-local INDEX"
+		;;
+esac

@@ -1,0 +1,1 @@
+app-emulation/qemu aio bpf io-uring ncurses slirp vhost-net virtfs gtk

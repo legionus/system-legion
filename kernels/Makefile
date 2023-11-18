@@ -3,8 +3,8 @@ VENDOR = altlinux
 CACHEDIR = $(HOME)/sysimage/cache
 OUTDIR = $(HOME)/sysimage/stateless
 
-BASEIMAGE_FILES = $(CURDIR)/basefiles
-BASEIMAGE_PACKAGES = apt-https ca-certificates
+INSTRUMENTAL_FILES = $(CURDIR)/basefiles
+INSTRUMENTAL_PACKAGES = apt-https ca-certificates
 
 IMAGE_PACKAGES = $(CURDIR)/packages
 

@@ -1,0 +1,10 @@
+#!/bin/sh -efu
+
+[ -x /sbin/systemd ] || [ -x /usr/lib/systemd/systemd ] ||
+	exit 0
+
+printf '%s\n' "${INFO_SYSTEMD_ENABLE_SERVICES-}" |
+	grep -qs 'systemd-resolved' ||
+	exit 0
+
+ln -fvs /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf

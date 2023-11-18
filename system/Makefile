@@ -8,8 +8,8 @@ OUTDIR = $(HOME)/sysimage/stateless
 COMPRESS = zstd -19 -T0 -v
 IMAGENAME = system-$(CURDATE).star
 
-BASEIMAGE_FILES = $(CURDIR)/basefiles
-BASEIMAGE_PACKAGES = apt-https ca-certificates
+INSTRUMENTAL_FILES = $(CURDIR)/basefiles
+INSTRUMENTAL_PACKAGES = apt-https ca-certificates
 
 IMAGE_PACKAGES = $(CURDIR)/packages
 IMAGE_PREFILES = $(CURDIR)/image-predb-files

@@ -3,7 +3,7 @@ kernel-image-centos
 kernel-modules-alsa-centos
 kernel-modules-drm-centos
 kernel-modules-media-centos
-kernel-modules-nvidia-open-centos
+# kernel-modules-nvidia-open-centos
 make-initrd
 make-initrd-pipeline-stateless
 make-initrd-ucode
