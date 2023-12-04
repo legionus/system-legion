@@ -1,0 +1,22 @@
+VENDOR = gentoo
+
+CURDATE = $(shell date +%Y%m%d)
+COMMONDIR = $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+
+CACHEDIR = /sysimage/cache
+OUTDIR = $(HOME)/sysimage/stateless
+
+COMPRESS = zstd -19 -T0 -v
+
+IMAGE_VAR_ARCH    = amd64
+IMAGE_VAR_VARIANT = systemd-mergedusr
+
+IMAGE_VAR_OVERLAYS = local:git:https://github.com/legionus/local-overlay
+
+IMAGE_VAR_EMERGE_QUIET = true
+IMAGE_VAR_EMERGE_JOBS = 3
+
+IMAGE_PREFILES = $(COMMONDIR)/files
+COPY_TREE      = $(COMMONDIR)/files
+
+BASEIMAGE_SCRIPT = $(COMMONIR)/baseimage.sh
