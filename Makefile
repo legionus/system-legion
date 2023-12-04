@@ -14,13 +14,13 @@ LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
 kernels:
 	@echo "Processing '$@' and logs in the $(LOGFILE) ..."
 	@set -o errexit -o pipefail; \
-	  make -C kernels clean all 2>&1 | tee "$(LOGFILE)"
+	  make -C kernels all 2>&1 | tee "$(LOGFILE)"
 
 LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
 system:
 	@echo "Processing '$@' and logs in the $(LOGFILE) ..."
 	@set -o errexit -o pipefail; \
-	  make -C system clean all 2>&1 | tee "$(LOGFILE)"
+	  make -C system all 2>&1 | tee "$(LOGFILE)"
 	@if [ ! -e /sysimage/stateless/local-latest.star ]; then \
 	  $(CURDIR)/init-local-star && \
 	  printf '%s\n' \
