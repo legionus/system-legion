@@ -39,4 +39,9 @@ done
 #usermod --home /home/root root
 sed -i -r -e '/^root:x:0:0:/{ s@:/root:@:/home/root:@ }' /etc/passwd
 
+if [ ! -d /home/root ]; then
+	mv -T /root /home/root
+	ln -s home/root /root
+fi
+
 exit $rc

@@ -1,0 +1,32 @@
+#!/bin/bash -eu
+
+kvers=()
+
+for kern in /boot/vmlinuz-*; do
+	[ -e "$kern" ] || continue
+	kvers+=("${kern#/boot/vmlinuz-}")
+done
+
+[ -n "${kvers[*]}" ] || {
+	echo "no kernel version identified" >&2
+	exit 1
+}
+
+cat > /tmp/initrd.mk <<@@@
+AUTODETECT =
+MOUNTPOINTS = /
+MODULES_ADD += fs-ext4 ${INFO_MODALIAS-} ${INFO_MODULES_ADD-}
+FEATURES += \
+        add-modules add-udev-rules cleanup compress gpu-drm kbd \
+        network rdshell rootfs system-glibc ucode \
+        ${INFO_FEATURES-}
+
+FEATURES += pipeline pipeline-stateless
+COMPRESS = zstd
+@@@
+
+for kver in "${kvers[@]}"; do
+	make-initrd -c /tmp/initrd.mk -N -k "$kver"
+	chmod +r /boot/initramfs-"$kver".img
+	mv -f -- /boot/initramfs-"$kver".img /boot/initrd-"$kver".img
+done

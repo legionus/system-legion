@@ -1,9 +1,0 @@
-diff --git a/etc/pam.d/common-login b/etc/pam.d/common-login
---- a/etc/pam.d/common-login
-+++ b/etc/pam.d/common-login
-@@ -10,4 +10,5 @@
- session		substack	system-auth
- session		required	pam_loginuid.so
- -session	optional	pam_systemd.so
-+-session	optional	pam_exec.so /usr/local/bin/pam_session.sh
- session		substack	system-policy

@@ -1,0 +1,10 @@
+#!/bin/sh -efu
+
+mkdir -p -- /etc/sysconfig
+
+LANG=C.UTF-8
+echo LANG="$LANG" > /etc/locale.conf
+echo LANG="$LANG" > /etc/sysconfig/i18n
+
+touch /etc/sysconfig/consolefont
+touch /etc/sysconfig/keyboard

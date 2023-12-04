@@ -1,8 +1,0 @@
---- a/etc/locale.conf
-+++ b/etc/locale.conf
-@@ -0,0 +1,1 @@
-+LANG=C.UTF-8
---- a/etc/sysconfig/i18n
-+++ b/etc/sysconfig/i18n
-@@ -0,0 +1,1 @@
-+LANG=C.UTF-8

@@ -1,33 +1,19 @@
-diff --git a/etc/openssh/sshd_config b/etc/openssh/sshd_config
---- a/etc/openssh/sshd_config
-+++ b/etc/openssh/sshd_config
+diff --git a/etc/ssh/sshd_config b/etc/ssh/sshd_config
+--- a/etc/ssh/sshd_config
++++ b/etc/ssh/sshd_config
 @@ -14,6 +14,7 @@
  #AddressFamily any
  #ListenAddress 0.0.0.0
  #ListenAddress ::
 +ListenAddress 127.0.0.1
  
- #HostKey /etc/openssh/ssh_host_rsa_key
- #HostKey /etc/openssh/ssh_host_ecdsa_key
-@@ -53,7 +54,7 @@
- #IgnoreRhosts yes
+ #HostKey /etc/ssh/ssh_host_rsa_key
+ #HostKey /etc/ssh/ssh_host_ecdsa_key
+@@ -55,6 +56,7 @@
  
  # To disable tunneled clear text passwords, change to no here!
--#PasswordAuthentication yes
+ #PasswordAuthentication yes
 +PasswordAuthentication no
  #PermitEmptyPasswords no
  
- # Change to yes to enable s/key passwords
-@@ -110,9 +111,9 @@
- AllowGroups wheel users
- 
- # Accept locale environment variables
--AcceptEnv LANG LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_CTYPE
--AcceptEnv LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY
--AcceptEnv LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME
-+#AcceptEnv LANG LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_CTYPE
-+#AcceptEnv LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY
-+#AcceptEnv LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME
- 
- # Example of overriding settings on a per-user basis
- #Match User anoncvs
+ # Change to no to disable s/key passwords

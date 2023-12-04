@@ -1,5 +1,0 @@
-# vim:syntax=apparmor
-  abi <abi/3.0>,
-
-  @{SETTINGS_DIR}/bin rix,
-  @{SETTINGS_DIR}/** rwmlk,
