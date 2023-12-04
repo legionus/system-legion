@@ -1,7 +1,6 @@
 VENDOR = gentoo
 
 CURDATE = $(shell date +%Y%m%d)
-COMMONDIR = $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
 CACHEDIR = /sysimage/cache
 OUTDIR = $(HOME)/sysimage/stateless
@@ -16,7 +15,7 @@ IMAGE_VAR_OVERLAYS = local:git:https://github.com/legionus/local-overlay
 IMAGE_VAR_EMERGE_QUIET = true
 IMAGE_VAR_EMERGE_JOBS = 3
 
-IMAGE_PREFILES = $(COMMONDIR)/files
-COPY_TREE      = $(COMMONDIR)/files
+IMAGE_PREFILES = $(CURDIR)/../files
+COPY_TREE      = $(CURDIR)/../files
 
-BASEIMAGE_SCRIPT = $(COMMONIR)/baseimage.sh
+BASEIMAGE_SCRIPT = $(CURDIR)/../baseimage.sh
