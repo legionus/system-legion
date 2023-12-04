@@ -9,6 +9,7 @@ app-eselect/eselect-repository
 app-misc/consolelocker
 app-misc/mc
 app-misc/tmux
+app-office/libreoffice
 app-portage/gentoolkit
 app-shells/bash
 app-shells/bash-completion
@@ -88,7 +89,7 @@ virtual/perl-Term-ANSIColor
 www-client/elinks
 www-client/firefox:rapid
 x11-base/xwayland
+x11-drivers/nvidia-drivers
 x11-libs/libnotify
 x11-misc/xdg-utils
 x11-misc/yad
-x11-drivers/nvidia-drivers
