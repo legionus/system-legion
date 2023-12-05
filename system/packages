@@ -15,6 +15,7 @@ app-shells/bash
 app-shells/bash-completion
 app-shells/dash
 app-shells/fzf
+app-text/pinfo
 app-vim/vim-spell-en
 app-vim/vim-spell-ru
 dev-lang/rust
