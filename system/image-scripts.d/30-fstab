@@ -1,0 +1,5 @@
+#!/bin/sh -efu
+
+if [ -f /etc/fstab.sysimage ]; then
+	mv -vf /etc/fstab.sysimage /etc/fstab
+fi
