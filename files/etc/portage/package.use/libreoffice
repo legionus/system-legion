@@ -1,1 +1,1 @@
-app-office/libreoffice -mariadb -cups
+app-office/libreoffice coinmp -mariadb -cups
