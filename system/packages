@@ -1,6 +1,7 @@
 app-admin/eselect
 app-admin/logrotate
 app-arch/cpio
+app-arch/unzip
 app-containers/podman
 app-crypt/gnupg
 app-editors/vim
