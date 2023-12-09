@@ -1,5 +1,5 @@
 sys-firmware/nvidia-firmware
-sys-kernel/gentoo-kernel
+sys-kernel/centos-kernel
 sys-kernel/linux-firmware
 sys-kernel/make-initrd
 sys-kernel/make-initrd-pipeline-stateless
