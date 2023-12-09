@@ -35,21 +35,26 @@ for i in boot/vmlinuz-*; do
 		continue
 
 	i="${i#boot/vmlinuz-}"
+	flavour=""
 
-	flavour="${i%-*}"
-	flavour="${flavour#*-}"
+	if [ -z "${i##*-*}" ]; then
+		flavour="${i%-*}"
+		flavour="${flavour#*-}"
+	fi
 
 	echo packing kernel "$i" >&2
 
 	outdir="/.host/out/kernel-$i"
 	mkdir -p -- "$outdir"
 
-	cp boot/vmlinuz-"$i" -t "$outdir"
-	cp boot/initrd-"$i".img -t "$outdir"
+	cp -t "$outdir" boot/vmlinuz-"$i"
+	cp -t "$outdir" boot/initrd-"$i".img
 
-	ln -snf vmlinuz-"$i" "$outdir"/vmlinuz-"$flavour"
-	ln -snf vmlinuz-"$i" "$outdir"/vmlinuz
-	ln -snf initrd-"$i".img "$outdir"/initrd-"$flavour".img
+	if [ -n "$flavour" ]; then
+		ln -snf vmlinuz-"$i"    "$outdir"/vmlinuz-"$flavour"
+		ln -snf initrd-"$i".img "$outdir"/initrd-"$flavour".img
+	fi
+	ln -snf vmlinuz-"$i"    "$outdir"/vmlinuz
 	ln -snf initrd-"$i".img "$outdir"/initrd.img
 
 	tar --numeric-owner "$@" \
