@@ -27,11 +27,26 @@ boot_parameters()
 	#
 }
 
+grub_line()
+{
+	local a max="$1"
+	shift
+
+	for a; do
+		local i=0
+		while [ "$i" -lt "$max" ]; do
+			printf '  '
+			i=$(($i + 1))
+		done
+		printf '%s\n' "$a"
+	done
+}
+
 config_grub()
 {
 	local system_stars kernels
 
-	system_starts=()
+	system_stars=()
 	readarray -t system_stars < <(
 		find "$imgdir" \
 			-mindepth 1 -maxdepth 1 -type f \
@@ -49,41 +64,56 @@ config_grub()
 		sort --version-sort
 	)
 
-	printf '%s\n' \
-		"### BEGIN Stateless Tar ARchives ###" \
-		"set default=0" \
-		"set timeout=" \
-		""
+	grub_line 0 "set default=0"
+	grub_line 0 "set timeout="
+	grub_line 0 ""
 
 	if [ -e "$imgdir/system-stable.star" ] && [ -e "$imgdir/kernel-latest" ]; then
-		printf '%s\n' \
-			"menuentry 'ALT Star (stable latest)' --class gnu-linux --class gnu --class os {" \
-			"  linux   $imgdir/kernel-latest/vmlinuz $(boot_parameters stable latest latest)" \
-			"  initrd  $imgdir/kernel-latest/initrd.img" \
-			"}"
+		grub_line 0 "menuentry 'latest star' {"
+		grub_line 1 "linux  $imgdir/kernel-latest/vmlinuz $(boot_parameters stable latest latest)"
+		grub_line 1 "initrd $imgdir/kernel-latest/initrd.img"
+		grub_line 0 "}"
 	fi
 
-	printf '%s\n' \
-		"submenu 'ALT Advanced Stars' {"
+	vendors=()
+	readarray -t vendors < <(
+		printf '%s\n' "${system_stars[@]}" |
+			sed -r -n -e 's/^system-([^0-9][^-]+)-.*\.star/\1/p' |
+			sort -u
+	)
 
-	for system in "${system_stars[@]}"; do
-		s_ver="${system#system-}"
-		s_ver="${s_ver%.star}"
+	for vendor in "${vendors[@]}"; do
+		grub_line 0 "submenu 'system $vendor' {"
 
-		for kernel in "${kernels[@]}"; do
-			k_ver="${kernel#kernel-}"
+		if [ -e "$imgdir/system-$vendor.star" ] && [ -e "$imgdir/kernel-latest" ]; then
+			grub_line 1 "menuentry 'latest $vendor star' {"
+			grub_line 2 "linux  $imgdir/kernel-latest/vmlinuz $(boot_parameters "$vendor" "$vendor" latest)"
+			grub_line 2 "initrd $imgdir/kernel-latest/initrd.img"
+			grub_line 1 "}"
+		fi
 
-			printf '%s\n' \
-				"  menuentry 'ALT Star (${s_ver} $k_ver)' --class gnu-linux --class gnu --class os {" \
-				"    linux   $imgdir/kernel-$k_ver/vmlinuz $(boot_parameters "$s_ver" "latest" "$k_ver")" \
-				"    initrd  $imgdir/kernel-$k_ver/initrd.img" \
-				"  }"
+		grub_line 1 "submenu 'advanced $vendor stars' {"
+
+		for system in "${system_stars[@]}"; do
+			[ -z "${system##system-$vendor-*}" ] ||
+				continue
+
+			s_ver="${system#system-$vendor-}"
+			s_ver="${s_ver%.star}"
+
+			for kernel in "${kernels[@]}"; do
+				k_ver="${kernel#kernel-}"
+
+				grub_line 2 "menuentry 'star ($s_ver $k_ver)' {"
+				grub_line 3 "linux  $imgdir/kernel-$k_ver/vmlinuz $(boot_parameters "$vendor-$s_ver" "$vendor" "$k_ver")"
+				grub_line 3 "initrd $imgdir/kernel-$k_ver/initrd.img"
+				grub_line 2 "}"
+			done
 		done
-	done
-	printf '}\n'
-	printf '%s\n' \
-		'### END Stateless Tar ARchives ###'
 
+		grub_line 1 '}'
+		grub_line 0 '}'
+	done
 }
 
 loader="grub"
