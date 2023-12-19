@@ -2,7 +2,7 @@ MAKESHELL = /bin/bash
 CURNAME = $(notdir $(CURDIR))
 LOGDIR = $(HOME)/sysimage
 
-.PHONY: clean kernels system all
+.PHONY: clean kernels system all sync
 
 all: kernels system
 
@@ -32,3 +32,40 @@ sync:
 	@for d in $(HOME)/sysimage/stateless/kernel-*; do \
 	  [ ! -e "$$d" ] || rmdir -- "$$d"; \
 	done
+
+.PHONY: update-latest-system
+
+update-latest-system:
+	@find /sysimage/stateless/ -mindepth 1 -maxdepth 1 -type f -name 'system-*.star' -printf '%f\n' | \
+	  sort -rV | \
+	  sed -r -e 's/system-([^-]+)-(.*)\.star/\1\t&/' | \
+	  sort -u -k1,1 | \
+	while read -r vendor star; do \
+	  ln -vnsf -- "$$star" "/sysimage/stateless/system-$$vendor.star"; \
+	done
+
+.PHONY: update-latest-local
+
+update-latest-local:
+	@find /sysimage/stateless/ -mindepth 1 -maxdepth 1 -type f -name 'local-*.star' -printf '%f\n' | \
+	  sort -rV | \
+	  sed -r -e 's/local-([^-]+)-(.*)\.star/\1\t&/' | \
+	  sort -u -k1,1 | \
+	while read -r vendor star; do \
+	  ln -vnsf -- "$$star" "/sysimage/stateless/local-$$vendor.star"; \
+	done
+
+.PHONY: update-latest-kernel
+
+update-latest-kernel:
+	@find /sysimage/stateless/ -mindepth 1 -maxdepth 1 -type d -name 'kernel-*' -printf '%f\n' | \
+	  sort -rV | \
+	  head -1 | \
+	while read -r klatest; do \
+	  ln -vnsf -- "$$klatest" "/sysimage/stateless/kernel-latest"; \
+	done
+
+.PHONY: update-latest
+
+update-latest: update-latest-system update-latest-kernel update-latest-local
+	@:
