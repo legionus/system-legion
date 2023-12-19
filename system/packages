@@ -31,6 +31,7 @@ dev-python/ply
 dev-python/pylint
 dev-python/tabulate
 dev-util/ctags
+dev-util/kup
 dev-util/pkgdev
 dev-util/strace
 dev-util/valgrind
