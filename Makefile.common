@@ -5,7 +5,8 @@ CURDATE = $(shell date +%Y%m%d)
 CACHEDIR = /sysimage/cache
 OUTDIR = $(HOME)/sysimage/stateless
 
-COMPRESS = zstd -19 -T0 -v
+USE_SQUASHFS = true
+SQUASHFS_ARGS = -b 1M -comp xz
 
 IMAGE_VAR_ARCH    = amd64
 IMAGE_VAR_VARIANT = systemd-mergedusr

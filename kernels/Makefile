@@ -1,5 +1,8 @@
 include $(CURDIR)/../Makefile.common
 
+INSTRUMENTAL_FILES = $(CURDIR)/instrumental-files
+INSTRUMENTAL_PACKAGES2 = sys-fs/squashfs-tools
+
 IMAGE_PACKAGES = $(CURDIR)/packages
 
 INFO_MODALIAS = \

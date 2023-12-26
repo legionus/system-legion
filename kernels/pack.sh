@@ -59,8 +59,8 @@ for i in boot/vmlinuz-*; do
 
 	tar --numeric-owner "$@" \
 		--xattrs \
-		--use-compress-program='zstd -19 -T0 -v' \
-		-cf "$outdir/$modname" lib/modules/"$i"
+		-cf - lib/modules/"$i" |
+		sqfstar -b 1M -comp xz "$outdir/$modname"
 
 	print_path kernel "$outdir"/vmlinuz-"$i"
 	print_path initrd "$outdir"/initrd-"$i".img

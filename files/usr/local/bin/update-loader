@@ -11,20 +11,66 @@ stateless_init_size="${boot_stateless_init_size:-10G}"
 stateless_size_mult="${boot_stateless_size_mult:-0}"
 security="${boot_security-}"
 
+#set -x
+same_img_types()
+{
+	local f imgtype prevtype
+	prevtype=""
+
+	for f in \
+		"$imgdir/system-$1.star" \
+		"$imgdir/local-$2.star" \
+		"$imgdir/kernel-$3/kmodules.star" \
+		;
+	do
+		imgtype="`file -Lb "$f"`" ||
+			return 1
+
+		case "${imgtype,,}" in
+			'squashfs filesystem'*)
+				imgtype="squashfs"
+				;;
+			*)
+				imgtype="tar"
+				;;
+		esac
+
+		[ -z "$prevtype" ] || [ "$prevtype" = "$imgtype" ] ||
+			return 1
+
+		prevtype="$imgtype"
+	done
+}
+
 boot_parameters()
 {
-	local reldir="${imgdir#/}"
+	local reldir f imgtype prevtype params
 
-	printf ' %s' \
-		ro panic=30 rdlog=console \
-		root=pipeline pipeline=waitdev,mountfs,stateless,rootfs \
-		waitdev=LABEL=ROOT \
-		mountfs=dev \
-		stateless_init_size="$stateless_init_size" \
-		stateless_size_mult="$stateless_size_mult" \
-		stateless_images="$reldir/system-$1.star,$reldir/local-$2.star,$reldir/kernel-$3/kmodules.star" \
-		${security:+security="$security"} \
-	#
+	params=( ro panic=30 rdlog=console ${security:+security="$security"} )
+	reldir="${imgdir#/}"
+	imgtype="`file -Lb "$imgdir/system-$1.star"`"
+
+	case "${imgtype,,}" in
+		'squashfs filesystem'*)
+			params+=( root=pipeline pipeline=waitdev,mountfs,mountfs,mountfs,mountfs,overlayfs,rootfs )
+			params+=( waitdev=LABEL=ROOT )
+			params+=( mountfs=dev )
+			params+=( mountfs=pipe1/$reldir/local-$2.star )
+			params+=( mountfs=pipe1/$reldir/kernel-$3/kmodules.star )
+			params+=( mountfs=pipe1/$reldir/system-$1.star )
+			params+=( overlayfs=pipe2,pipe3,pipe4 )
+			;;
+		*)
+			params+=( root=pipeline pipeline=waitdev,mountfs,stateless,rootfs )
+			params+=( waitdev=LABEL=ROOT )
+			params+=( mountfs=dev )
+			params+=( stateless_init_size="$stateless_init_size" )
+			params+=( stateless_size_mult="$stateless_size_mult" )
+			params+=( stateless_images="$reldir/system-$1.star,$reldir/local-$2.star,$reldir/kernel-$3/kmodules.star" )
+			;;
+	esac
+
+	printf ' %s' "${params[@]}"
 }
 
 grub_line()
@@ -85,7 +131,11 @@ config_grub()
 	for vendor in "${vendors[@]}"; do
 		grub_line 0 "submenu 'system $vendor' {"
 
-		if [ -e "$imgdir/system-$vendor.star" ] && [ -e "$imgdir/kernel-latest" ]; then
+		if
+			[ -e "$imgdir/system-$vendor.star" ] &&
+			[ -e "$imgdir/kernel-latest"       ] &&
+			same_img_types "$vendor" "$vendor" latest
+		then
 			grub_line 1 "menuentry 'latest $vendor star' {"
 			grub_line 2 "linux  $imgdir/kernel-latest/vmlinuz $(boot_parameters "$vendor" "$vendor" latest)"
 			grub_line 2 "initrd $imgdir/kernel-latest/initrd.img"
@@ -103,6 +153,9 @@ config_grub()
 
 			for kernel in "${kernels[@]}"; do
 				k_ver="${kernel#kernel-}"
+
+				same_img_types "$vendor-$s_ver" "$vendor" "$k_ver" ||
+					continue
 
 				grub_line 2 "menuentry 'star ($s_ver $k_ver)' {"
 				grub_line 3 "linux  $imgdir/kernel-$k_ver/vmlinuz $(boot_parameters "$vendor-$s_ver" "$vendor" "$k_ver")"

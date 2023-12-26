@@ -15,7 +15,7 @@ done
 cat > /tmp/initrd.mk <<@@@
 AUTODETECT =
 MOUNTPOINTS = /
-MODULES_ADD += fs-ext4 ${INFO_MODALIAS-} ${INFO_MODULES_ADD-}
+MODULES_ADD += fs-ext4 fs-squashfs ${INFO_MODALIAS-} ${INFO_MODULES_ADD-}
 FEATURES += \
         add-modules add-udev-rules cleanup compress gpu-drm kbd \
         network rdshell rootfs system-glibc ucode \
