@@ -82,6 +82,7 @@ sys-devel/gdb
 sys-devel/libtool
 sys-devel/make
 sys-firmware/nvidia-firmware
+sys-fs/squashfs-tools
 sys-kernel/linux-firmware
 sys-kernel/make-initrd
 sys-libs/glibc
