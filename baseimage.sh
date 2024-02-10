@@ -14,16 +14,17 @@ export FEATURES="-ipc-sandbox -network-sandbox -pid-sandbox"
 [ -z "${IMAGE_VAR_SKIP_KERNEL_CHECK-}" ] ||
 	export SKIP_KERNEL_CHECK=1
 
-emerge-webrsync
+emerge-webrsync -q
 
-emerge --ask=n app-portage/getuto
+emerge --quiet --ask=n app-portage/getuto
 getuto
 
 [ ! -d "$PKGDIR" ] ||
 	emaint binhost --fix
 
-# https://wiki.gentoo.org/wiki/Binary_package_guide
-emerge --ask=n --depclean
-
 # emerge --update --newuse --deep @world
-emerge --ask=n --usepkg=y --buildpkg=y --rebuilt-binaries=y --binpkg-respect-use=y --emptytree @world
+emerge --quiet --ask=n --usepkg=y --buildpkg=y --rebuilt-binaries=y --binpkg-respect-use=y --emptytree @world
+
+# https://wiki.gentoo.org/wiki/Binary_package_guide
+[ -z "${IMAGE_VAR_REMOVE_BDEPS-}" ] ||
+	emerge --quiet --ask=n --depclean --with-bdeps=n
