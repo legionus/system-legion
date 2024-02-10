@@ -2,6 +2,5 @@ sys-firmware/nvidia-firmware
 sys-kernel/centos-kernel
 sys-kernel/linux-firmware
 sys-kernel/make-initrd
-sys-kernel/make-initrd-pipeline-stateless
 sys-libs/glibc
 x11-drivers/nvidia-drivers
