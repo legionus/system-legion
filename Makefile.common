@@ -15,6 +15,7 @@ IMAGE_VAR_OVERLAYS = local:git:https://github.com/legionus/local-overlay
 
 IMAGE_VAR_EMERGE_QUIET = true
 IMAGE_VAR_EMERGE_JOBS = 3
+IMAGE_VAR_EMERGE_IGNORE_COLLISIONS = 1
 
 IMAGE_PREFILES = $(CURDIR)/../files
 COPY_TREE      = $(CURDIR)/../files
