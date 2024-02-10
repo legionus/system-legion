@@ -7,18 +7,22 @@ for kern in /boot/vmlinuz-*; do
 	kvers+=("${kern#/boot/vmlinuz-}")
 done
 
-[ -n "${kvers[*]}" ] || {
+if [ -z "${kvers[*]}" ]; then
+	kvers+=( `sed -rn 's#^version[[:space:]]+##p' /boot/loader/entries/*.conf` )
+fi
+
+if [ -z "${kvers[*]}" ]; then
 	echo "no kernel version identified" >&2
 	exit 1
-}
+fi
 
 cat > /tmp/initrd.mk <<@@@
 AUTODETECT =
 MOUNTPOINTS = /
 MODULES_ADD += fs-ext4 fs-squashfs ${INFO_MODALIAS-} ${INFO_MODULES_ADD-}
 FEATURES += \
-        add-modules add-udev-rules cleanup compress gpu-drm kbd \
-        network rdshell rootfs system-glibc ucode \
+        add-modules add-udev-rules cleanup compress \
+        rdshell rootfs system-glibc \
         ${INFO_FEATURES-}
 
 FEATURES += pipeline pipeline-stateless
