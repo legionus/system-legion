@@ -1,0 +1,12 @@
+#!/bin/sh -efu
+
+[ -x /sbin/systemd ] || [ -x /usr/lib/systemd/systemd ] ||
+	exit 0
+
+printf '%s\n' "${INFO_SYSTEMD_ENABLE_SERVICES-}" |
+	grep -qs 'systemd-timesyncd' ||
+	exit 0
+
+test -f "../usr/share/zoneinfo/$INFO_TIME_ZONE"
+
+ln -sf -- "../usr/share/zoneinfo/$INFO_TIME_ZONE" /etc/localtime
