@@ -10,13 +10,11 @@ app-eselect/eselect-repository
 app-misc/consolelocker
 app-misc/mc
 app-misc/tmux
-app-office/libreoffice
 app-portage/gentoolkit
 app-shells/bash
 app-shells/bash-completion
 app-shells/dash
 app-shells/fzf
-app-text/pinfo
 app-vim/vim-spell-en
 app-vim/vim-spell-ru
 dev-build/autoconf-archive
@@ -75,6 +73,7 @@ sys-apps/kbd
 sys-apps/kmod
 sys-apps/man-db
 sys-apps/systemd
+sys-apps/texinfo
 sys-apps/util-linux
 sys-apps/xdg-desktop-portal
 sys-auth/pam_mktemp
@@ -87,6 +86,7 @@ sys-devel/flex
 sys-firmware/nvidia-firmware
 sys-fs/squashfs-tools
 sys-kernel/linux-firmware
+sys-kernel/make-initrd
 sys-libs/glibc
 sys-libs/pam
 virtual/editor
@@ -95,7 +95,7 @@ virtual/perl-Term-ANSIColor
 www-client/elinks
 www-client/firefox:rapid
 x11-base/xwayland
-x11-drivers/nvidia-drivers
+x11-drivers/nvidia-drivers:0/550
 x11-libs/libnotify
 x11-misc/xdg-utils
 x11-misc/yad
