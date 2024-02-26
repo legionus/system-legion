@@ -1,6 +1,6 @@
 sys-firmware/nvidia-firmware
-sys-kernel/centos-kernel
+sys-kernel/gentoo-kernel
 sys-kernel/linux-firmware
 sys-kernel/make-initrd
 sys-libs/glibc
-x11-drivers/nvidia-drivers
+x11-drivers/nvidia-drivers:0/550
