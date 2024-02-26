@@ -8,6 +8,13 @@ for kern in /boot/vmlinuz-*; do
 done
 
 if [ -z "${kvers[*]}" ]; then
+	for kern in /boot/kernel-*; do
+		[ -e "$kern" ] || continue
+		kvers+=("${kern#/boot/kernel-}")
+	done
+fi
+
+if [ -z "${kvers[*]}" ] && [ -d /boot/loader/entries ]; then
 	kvers+=( `sed -rn 's#^version[[:space:]]+##p' /boot/loader/entries/*.conf` )
 fi
 

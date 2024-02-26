@@ -81,6 +81,18 @@ for cfg in boot/loader/entries/*.conf; do
 	found=1
 done
 
+for i in boot/kernel-*; do
+	[ -e "$i" ] || continue
+
+	[ ! -L "$i" ] ||
+		continue
+
+	i="${i#boot/kernel-}"
+
+	pack_kernel "$i" boot/kernel-"$i" boot/initrd-"$i".img "$@"
+	found=1
+done
+
 for i in boot/vmlinuz-*; do
 	[ -e "$i" ] || continue
 
