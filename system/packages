@@ -38,6 +38,7 @@ dev-python/mypy
 dev-python/ply
 dev-python/pylint
 dev-python/tabulate
+dev-python/termcolor
 dev-util/ctags
 dev-util/kup
 dev-util/wayland-scanner
@@ -100,5 +101,6 @@ www-client/firefox:rapid
 x11-base/xwayland
 x11-drivers/nvidia-drivers:0/550
 x11-libs/libnotify
+x11-misc/xcb
 x11-misc/xdg-utils
 x11-misc/yad
