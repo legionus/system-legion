@@ -88,6 +88,7 @@ sys-fs/squashfs-tools
 sys-kernel/linux-firmware
 sys-kernel/make-initrd
 sys-libs/glibc
+sys-libs/libxcrypt
 sys-libs/pam
 virtual/editor
 virtual/libelf

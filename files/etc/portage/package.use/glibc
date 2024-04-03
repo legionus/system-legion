@@ -1,1 +1,1 @@
-sys-libs/glibc -multilib-bootstrap -systemtap
+sys-libs/glibc -multilib-bootstrap -systemtap -compile-locales -crypt
