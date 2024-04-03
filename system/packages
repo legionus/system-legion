@@ -43,6 +43,7 @@ dev-util/kup
 dev-util/wayland-scanner
 dev-vcs/git
 gui-apps/foot
+gui-apps/fuzzel
 gui-apps/mako
 gui-apps/swaybg
 gui-apps/swaykbdd
