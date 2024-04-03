@@ -1,0 +1,7 @@
+[make-initrd-overlay]
+location = /var/db/repos/make-initrd-overlay
+sync-type = zipfile
+sync-uri = https://github.com/osboot/gentoo-make-initrd-overlay/archive/refs/heads/main.zip
+auto-sync = yes
+priority = 100
+
