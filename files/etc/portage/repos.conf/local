@@ -1,0 +1,7 @@
+[local]
+location = /var/db/repos/local
+sync-type = zipfile
+sync-uri = https://github.com/legionus/local-overlay/archive/refs/heads/master.zip
+auto-sync = yes
+priority = 100
+

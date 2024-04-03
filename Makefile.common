@@ -11,9 +11,6 @@ SQUASHFS_ARGS = -b 1M -comp xz
 IMAGE_VAR_ARCH    = amd64
 IMAGE_VAR_VARIANT = systemd-mergedusr
 
-#IMAGE_VAR_OVERLAYS = local:git:https://github.com/legionus/local-overlay
-IMAGE_VAR_OVERLAYS = local:zipfile:https://github.com/legionus/local-overlay/archive/refs/heads/master.zip
-
 IMAGE_VAR_EMERGE_QUIET = true
 IMAGE_VAR_EMERGE_JOBS = 3
 IMAGE_VAR_EMERGE_IGNORE_COLLISIONS = 1
