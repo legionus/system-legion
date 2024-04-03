@@ -1,1 +1,1 @@
-media-sound/pulseaudio bluetooth glib daemon
+media-sound/pulseaudio bluetooth glib -daemon

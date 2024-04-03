@@ -59,7 +59,8 @@ mail-mta/ssmtp
 media-fonts/fonts-meta
 media-fonts/noto-emoji
 media-sound/pavucontrol
-media-sound/pulseaudio
+media-video/pipewire
+media-video/wireplumber
 net-fs/sshfs
 net-libs/libtirpc
 net-mail/fetchmail
