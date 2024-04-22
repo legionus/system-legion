@@ -1,1 +1,1 @@
-sys-devel/gcc -ada -go -rust -d -doc
+sys-devel/gcc default-stack-clash-protection default-znow -ada -fortran -go -rust -d -doc
