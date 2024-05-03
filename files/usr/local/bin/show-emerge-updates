@@ -1,0 +1,84 @@
+#!/bin/sh -efu
+
+export LANG=C
+export LC_ALL=C
+
+. shell-error
+. shell-args
+
+show_help()
+{
+	cat <<-EOF
+	Usage: $PROG [options] [atoms...]
+
+	Options:
+	  --no-color             disable color output;
+	  --sync                 updates repositories;
+	  -v, --verbose          print a message for each action;
+	  -V, --version          print program version and exit;
+	  -h, --help             show this text and exit.
+
+	Report bugs to authors.
+
+	EOF
+	exit
+}
+
+print_version()
+{
+	cat <<-EOF
+	$PROG version $PROG_VERSION
+	Written by Alexey Gladkov <legion@kernel.org>
+
+	Copyright (C) 2024  Alexey Gladkov <legion@kernel.org>
+	This is free software; see the source for copying conditions.  There is NO
+	warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	EOF
+	exit
+}
+
+
+TEMP=`getopt -n $PROG -o v,V,h -l no-color,sync,verbose,version,help -- "$@"` ||
+	show_usage
+eval set -- "$TEMP"
+
+sync=
+color=1
+verbose=
+
+while :; do
+	case "$1" in
+		--sync)
+			sync=1
+			;;
+		--no-color)
+			color=
+			;;
+		-v|--verbose)
+			verbose=1
+			;;
+		-h|--help) show_help
+			;;
+		-V|--version) print_version
+			;;
+		--) shift; break
+			;;
+		*) fatal "Unrecognized option: $1"
+			;;
+	esac
+	shift
+done
+
+if [ -n "$sync" ]; then
+	verbose "updating repositories ..."
+	emerge --sync ${verbose:+--verbose}
+fi
+
+verbose "calculating updates ..."
+emerge ${verbose:+--verbose} ${color:+--color=y} \
+	--pretend --newuse --update --usepkg --buildpkg --emptytree \
+	--with-bdeps=y --binpkg-changed-deps=n \
+	@world "$@" 2>&1 |
+	grep --color=never -vE \
+		-e '^\[([[:cntrl:]]\[[0-9;]+m)?binary([[:cntrl:]]\[[0-9;]+m)? '
+
