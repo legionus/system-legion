@@ -1,0 +1,3 @@
+app-crypt/rhash static-libs
+dev-libs/libbpf static-libs
+sys-libs/binutils-libs static-libs cet

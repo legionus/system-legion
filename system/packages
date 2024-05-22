@@ -7,7 +7,6 @@ app-crypt/gnupg
 app-editors/vim
 app-emulation/qemu
 app-eselect/eselect-repository
-app-misc/consolelocker
 app-misc/mc
 app-misc/tmux
 app-portage/gentoolkit
@@ -57,7 +56,6 @@ gui-wm/sway
 mail-client/mutt
 mail-filter/bogofilter
 mail-filter/procmail
-mail-mta/ssmtp
 media-fonts/fonts-meta
 media-fonts/noto-emoji
 media-sound/pavucontrol
@@ -67,13 +65,14 @@ net-fs/sshfs
 net-libs/libtirpc
 net-mail/fetchmail
 net-mail/isync
+net-misc/freerdp
 net-misc/openssh
-net-vpn/openvpn
 sys-apps/busybox
 sys-apps/flatpak
 sys-apps/help2man
 sys-apps/kbd
 sys-apps/kmod
+sys-apps/locale-gen
 sys-apps/man-db
 sys-apps/systemd
 sys-apps/texinfo
@@ -104,3 +103,4 @@ x11-libs/libnotify
 x11-misc/xcb
 x11-misc/xdg-utils
 x11-misc/yad
+net-dns/bind-tools

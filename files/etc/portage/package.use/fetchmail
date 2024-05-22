@@ -1,1 +1,1 @@
-net-mail/fetchmail socks ssl -tk
+net-mail/fetchmail ssl -tk -socks

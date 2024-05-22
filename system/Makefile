@@ -10,7 +10,7 @@ IMAGE_PACKAGES = $(CURDIR)/packages
 INFO_USER_CREATE = legion
 INFO_USER_UID_legion = 1000
 INFO_USER_GID_legion = 1000
-INFO_USER_GROUPS_legion = users,uucp,wheel,input,audio,video,kvm,pipewire
+INFO_USER_GROUPS_legion = users,wheel,input,audio,video,kvm,pipewire
 INFO_USER_SHELL_legion = /bin/bash
 
 INFO_TIME_ZONE = Europe/Prague
