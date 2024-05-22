@@ -1,0 +1,51 @@
+#!/bin/bash -efu
+
+PROG="${0##*/}"
+TEST= #echo
+
+export LC_ALL=C
+
+print()
+{
+	printf >&2 '%s\n' "$PROG: $*"
+}
+
+is_allowed()
+{
+	local i arr
+	declare -n arr="$2"
+
+	for ((i = 0; $i < ${#arr[@]}; i += 1 )); do
+		if [ "$3" = "${arr[$i]}" ]; then
+			print "found allowed $1 file: $3"
+			return 0
+		fi
+	done
+	return 1
+}
+
+[ -f /etc/portage/suidctl.conf ] ||
+	exit 0
+
+allowed_suidctl=()
+readarray -t allowed_suidctl < /etc/portage/suidctl.conf
+
+dirs="$(set +f; printf '%s\n' /* | grep -Exv '/(dev|proc|sys|run|home|sysimage)')"
+
+print "Checking suid files ..."
+find $dirs -type f \( -perm /4000 \) -printf '%m %u:%g %p\n' |
+while read -r mode owner filename; do
+	if is_allowed "suid" allowed_suidctl "$filename"; then
+		continue
+	fi
+	$TEST chmod -c u-s "$filename"
+done
+
+print "checking sgid files ..."
+find $dirs -type f \( -perm /2000 \) -printf '%m %u:%g %p\n' |
+while read -r mode owner filename; do
+	if is_allowed "sgid" allowed_suidctl "$filename"; then
+		continue
+	fi
+	$TEST chmod -c g-s "$filename"
+done
