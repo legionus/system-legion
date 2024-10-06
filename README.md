@@ -1,6 +1,6 @@
 # System Creation Profile
 
-This repository contains the mkimage[1] profile for generating my workstation
+This repository contains the sysimage[1] profile for generating my workstation
 image. The system boots into tmpfs and does not retain state between reboots.
 
 # How it works?
@@ -14,9 +14,6 @@ There are three STARs (Stateless Tar ARchive) for boot:
   it in the `kernel/` subdirectory.
 * local - the archive contains installation-specific data and settings. Such as
   network settings, password hashes, private keys, etc.
-
-At boot time the make-initrd-pipeline-stateless[2] module is used which creates
-tmpfs, unpacks all three archives and transfers control there.
 
 # How to preserve changes?
 
@@ -43,5 +40,4 @@ which is mounted at `/sysimage/mutable`.
 /sysimage/stateless/system-stable.star -> system-20230608.star
 ```
 
-[1] https://github.com/altlinux/mkimage
-[2] https://git.altlinux.org/gears/m/make-initrd-pipeline-stateless.git
+* [1] https://github.com/legionus/sysimage
