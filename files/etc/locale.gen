@@ -34,4 +34,7 @@
 #fr_FR ISO-8859-1
 #fr_FR@euro ISO-8859-15
 #it_IT ISO-8859-1
+
 C.UTF-8 UTF-8
+en_US.UTF-8 UTF-8
+ru_RU.UTF-8 UTF-8
