@@ -7,7 +7,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad"],
     //"modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "custom/vpn", "cpu", "memory", "temperature", "backlight", "keyboard-state", "sway/language", "battery", "battery#bat2", "clock", "tray"],
+    "modules-right": ["pulseaudio", "network", "custom/vpn", "cpu", "memory", "temperature", "backlight", "keyboard-state", "sway/language", "battery", "battery#bat2", "clock"],
     // Modules configuration
     // "sway/workspaces": {
     //     "disable-scroll": true,
@@ -81,10 +81,6 @@
             "activated": "",
             "deactivated": ""
         }
-    },
-    "tray": {
-        "icon-size": 24,
-        "spacing": 10
     },
     "clock": {
         "timezone": "Europe/Prague",

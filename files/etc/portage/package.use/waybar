@@ -1,1 +1,1 @@
-gui-apps/waybar evdev libinput logind network popups pipewire pulseaudio systemd tray udev upower wifi upower
+gui-apps/waybar evdev libinput logind network popups pipewire pulseaudio systemd -tray udev upower wifi upower
