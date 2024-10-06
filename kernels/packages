@@ -2,7 +2,7 @@ dev-lang/perl
 sys-firmware/nvidia-firmware
 sys-kernel/gentoo-kernel
 sys-kernel/linux-firmware
-sys-kernel/make-initrd
+=sys-kernel/make-initrd-9999
 sys-libs/glibc
 sys-libs/libxcrypt
-x11-drivers/nvidia-drivers:0/550
+x11-drivers/nvidia-drivers:0/560
