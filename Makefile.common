@@ -4,6 +4,7 @@ CURDATE = $(shell date +%Y%m%d)
 
 CACHEDIR = /sysimage/cache
 OUTDIR = $(HOME)/sysimage/stateless
+WORKDIR = $(shell realpath $(CURDIR)/../.work)
 
 USE_SQUASHFS = true
 SQUASHFS_ARGS = -b 1M -comp xz

@@ -1,5 +1,7 @@
 include $(CURDIR)/../Makefile.common
 
+SYSIMAGE_TAG_PREFIX = system
+
 IMAGENAME = system-gentoo-$(CURDATE).star
 
 INSTRUMENTAL_FILES = $(CURDIR)/instrumental-files

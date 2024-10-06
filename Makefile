@@ -10,6 +10,10 @@ clean:
 	make -C kernels clean
 	make -C system clean
 
+reset:
+	make -C kernels reset-image
+	make -C system  reset-image
+
 LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
 kernels:
 	@echo "Processing '$@' and logs in the $(LOGFILE) ..."
