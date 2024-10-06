@@ -1,1 +1,2 @@
-media-libs/harfbuzz icu
+# USE=-cairo -- https://bugs.gentoo.org/904704
+media-libs/harfbuzz icu -cairo
