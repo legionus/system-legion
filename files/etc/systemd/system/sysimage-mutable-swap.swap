@@ -1,0 +1,7 @@
+[Unit]
+Documentation=man:fstab(5)
+RequiresMountsFor=/sysimage/mutable
+
+[Swap]
+What=/sysimage/mutable/swap
+Options=nofail

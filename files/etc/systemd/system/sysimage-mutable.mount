@@ -1,0 +1,12 @@
+[Unit]
+Documentation=man:fstab(5)
+Before=local-fs.target
+Requires=systemd-fsck@dev-disk-by\x2dlabel-ROOT.service
+After=systemd-fsck@dev-disk-by\x2dlabel-ROOT.service
+After=blockdev@dev-disk-by\x2dlabel-ROOT.target
+
+[Mount]
+What=/dev/disk/by-label/ROOT
+Where=/sysimage/mutable
+Type=ext4
+Options=relatime

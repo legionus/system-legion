@@ -1,0 +1,10 @@
+[Unit]
+Documentation=man:fstab(5)
+Before=local-fs.target
+RequiresMountsFor=/sysimage/mutable
+
+[Mount]
+What=/sysimage/mutable/sysimage/stateless
+Where=/sysimage/stateless
+Type=none
+Options=bind
