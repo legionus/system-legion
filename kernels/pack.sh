@@ -77,7 +77,7 @@ for cfg in boot/loader/entries/*.conf; do
 	version="$(sed -rn -e 's/^version[[:space:]]+//p' "$cfg")"
 	vmlinuz="$(sed -rn -e 's/^linux[[:space:]]+//p' "$cfg")"
 
-	pack_kernel "$version" "./$vmlinuz" boot/initrd-"$version".img "$@"
+	pack_kernel "$version" "./$vmlinuz" boot/initramfs-"$version".img "$@"
 	found=1
 done
 
@@ -89,7 +89,7 @@ for i in boot/kernel-*; do
 
 	i="${i#boot/kernel-}"
 
-	pack_kernel "$i" boot/kernel-"$i" boot/initrd-"$i".img "$@"
+	pack_kernel "$i" boot/kernel-"$i" boot/initramfs-"$i".img "$@"
 	found=1
 done
 
@@ -101,7 +101,7 @@ for i in boot/vmlinuz-*; do
 
 	i="${i#boot/vmlinuz-}"
 
-	pack_kernel "$i" boot/vmlinuz-"$i" boot/initrd-"$i".img "$@"
+	pack_kernel "$i" boot/vmlinuz-"$i" boot/initramfs-"$i".img "$@"
 	found=1
 done
 
