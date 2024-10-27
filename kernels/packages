@@ -5,4 +5,4 @@ sys-kernel/linux-firmware
 =sys-kernel/make-initrd-9999
 sys-libs/glibc
 sys-libs/libxcrypt
-x11-drivers/nvidia-drivers:0/560
+x11-drivers/nvidia-drivers
