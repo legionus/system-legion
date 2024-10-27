@@ -1,1 +1,1 @@
-app-emulation/qemu aio bpf io-uring ncurses slirp vhost-net virtfs gtk pipewire plugins -curl -gnutls -vnc
+app-emulation/qemu aio bpf io-uring ncurses slirp vhost-net virtfs gtk pipewire plugins -curl -gnutls -vnc qemu_softmmu_targets_s390x

@@ -38,10 +38,11 @@ dev-python/mypy
 dev-python/ply
 dev-python/pygobject
 dev-python/pylint
+dev-python/python-lsp-server
 dev-python/tabulate
 dev-python/termcolor
-dev-util/ctags
 dev-util/kup
+dev-util/perf
 dev-util/shellcheck-bin
 dev-util/wayland-scanner
 dev-vcs/git
@@ -89,6 +90,7 @@ sys-auth/seatd
 sys-devel/bc
 sys-devel/binutils
 sys-devel/bison
+sys-devel/clang
 sys-devel/flex
 sys-firmware/nvidia-firmware
 sys-fs/squashfs-tools
@@ -104,7 +106,7 @@ virtual/rust
 www-client/elinks
 www-client/firefox:rapid
 x11-base/xwayland
-x11-drivers/nvidia-drivers:0/560
+x11-drivers/nvidia-drivers
 x11-libs/libnotify
 x11-misc/xcb
 x11-misc/xdg-utils

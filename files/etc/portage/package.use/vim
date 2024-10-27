@@ -1,1 +1,1 @@
-app-editors/vim cscope terminal vim-pager gpm -tcl
+app-editors/vim cscope terminal vim-pager gpm lua -tcl
