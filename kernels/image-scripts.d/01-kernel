@@ -1,0 +1,12 @@
+#!/bin/sh
+
+for moddir in /lib/modules/*; do
+	for n in System.map config vmlinuz; do
+		[ -e "$moddir/$n" ] ||
+			continue
+
+		cp -afL -- "$moddir/$n" "$moddir/$n.tmp"
+		rm -f   -- "$moddir/$n"
+		mv -f   -- "$moddir/$n.tmp" "$moddir/$n"
+	done
+done

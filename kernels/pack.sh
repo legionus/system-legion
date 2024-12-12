@@ -71,6 +71,22 @@ fi
 
 found=
 
+for i in /lib/modules/*; do
+	[ -e "$i" ] || continue
+
+	[ -e "$i/vmlinuz" ] ||
+		continue
+
+	version="${i##*/}"
+	vmlinuz="$i/vmlinuz"
+
+	pack_kernel "$version" "$vmlinuz" boot/initramfs-"$version".img "$@"
+	found=1
+done
+
+[ -z "$found" ] ||
+	exit 0
+
 for cfg in boot/loader/entries/*.conf; do
 	[ -f "$cfg" ] || continue
 
@@ -81,28 +97,24 @@ for cfg in boot/loader/entries/*.conf; do
 	found=1
 done
 
-for i in boot/kernel-*; do
-	[ -e "$i" ] || continue
+[ -z "$found" ] ||
+	exit 0
 
-	[ ! -L "$i" ] ||
+for n in kernel vmlinuz; do
+	for i in "boot/$n"-*; do
+		[ -e "$i" ] || continue
+
+		[ ! -L "$i" ] ||
 		continue
 
-	i="${i#boot/kernel-}"
+		i="${i#boot/$n-}"
 
-	pack_kernel "$i" boot/kernel-"$i" boot/initramfs-"$i".img "$@"
-	found=1
-done
+		pack_kernel "$i" boot/"$n-$i" boot/initramfs-"$i".img "$@"
+		found=1
+	done
 
-for i in boot/vmlinuz-*; do
-	[ -e "$i" ] || continue
-
-	[ ! -L "$i" ] ||
-		continue
-
-	i="${i#boot/vmlinuz-}"
-
-	pack_kernel "$i" boot/vmlinuz-"$i" boot/initramfs-"$i".img "$@"
-	found=1
+	[ -z "$found" ] ||
+		exit 0
 done
 
 if [ -z "$found" ]; then
