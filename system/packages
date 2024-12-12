@@ -57,6 +57,7 @@ gui-libs/egl-gbm
 gui-libs/egl-wayland
 gui-libs/xdg-desktop-portal-wlr
 gui-wm/sway
+llvm-core/clang
 mail-client/mutt
 mail-filter/bogofilter
 mail-filter/procmail
@@ -90,7 +91,6 @@ sys-auth/seatd
 sys-devel/bc
 sys-devel/binutils
 sys-devel/bison
-sys-devel/clang
 sys-devel/flex
 sys-firmware/nvidia-firmware
 sys-fs/squashfs-tools
