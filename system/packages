@@ -31,8 +31,8 @@ dev-libs/libshell
 dev-libs/openssl
 dev-perl/Email-Address-XS
 dev-perl/Email-Simple
-dev-python/GitPython
 dev-python/dbus-python
+dev-python/gitpython
 dev-python/jira
 dev-python/mypy
 dev-python/ply

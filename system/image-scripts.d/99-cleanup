@@ -1,13 +1,13 @@
 #!/bin/sh -efu
 
 if grep -qs '^ID=gentoo' /etc/os-release; then
-	emerge --quiet --ask=n --depclean --with-bdeps=n
-
 	for d  in /var/cache/distfiles /var/db/repos /var/tmp/portage; do
 		[ ! -d "$d" ] ||
 			find "$d" -mindepth 1 -maxdepth 1 -exec rm -rf -- '{}' '+'
 	done
 fi
+
+find /etc -name '*.orig' -delete
 
 rm -f /etc/machine-id /var/lib/dbus/machine-id
 rm -f /var/lib/systemd/random-seed

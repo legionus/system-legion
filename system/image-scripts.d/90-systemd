@@ -1,0 +1,31 @@
+#!/bin/sh -efu
+
+[ -x /sbin/systemd ] || [ -x /usr/lib/systemd/systemd ] ||
+	exit 0
+
+[ -z "${INFO_SYATEMD_DEFAULT_TARGET-}" ] ||
+	systemctl set-default "$INFO_SYATEMD_DEFAULT_TARGET"
+
+have_resolved=
+have_timesyncd=
+
+for s in ${INFO_SYSTEMD_ENABLE_SERVICES-}; do
+	case "$s" in
+		systemd-resolved)  have_resolved=1  ;;
+		systemd-timesyncd) have_timesyncd=1 ;;
+	esac
+	systemctl enable "$s"
+done
+
+for s in ${INFO_SYSTEMD_MASK_SERVICES-}; do
+	systemctl mask "$s"
+done
+
+if [ -n "$have_timesyncd" ]; then
+	ln -fvs /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+fi
+
+if [ -n "$have_timesyncd" ]; then
+	test -f "../usr/share/zoneinfo/$INFO_TIME_ZONE"
+	ln -sf -- "../usr/share/zoneinfo/$INFO_TIME_ZONE" /etc/localtime
+fi

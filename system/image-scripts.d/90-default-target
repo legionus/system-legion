@@ -1,7 +1,0 @@
-#!/bin/sh -efu
-
-[ -x /sbin/systemd ] ||
-	exit 0
-
-[ -z "${INFO_SYATEMD_DEFAULT_TARGET-}" ] ||
-	systemctl set-default "$INFO_SYATEMD_DEFAULT_TARGET"
