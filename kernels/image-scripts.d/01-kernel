@@ -1,5 +1,7 @@
 #!/bin/sh
 
+moddir=
+
 for moddir in /lib/modules/*; do
 	for n in System.map config vmlinuz; do
 		[ -e "$moddir/$n" ] ||
@@ -9,4 +11,13 @@ for moddir in /lib/modules/*; do
 		rm -f   -- "$moddir/$n"
 		mv -f   -- "$moddir/$n.tmp" "$moddir/$n"
 	done
+
+	[ -e "$moddir/config" ] ||
+		rm -rf -- "$moddir"
 done
+
+moddir="$(find /lib/modules -mindepth 1 -maxdepth 1 -printf '%f\n' |sort -V |tail -1)"
+
+if [ -n "$moddir" ] && [ -d "$moddir" ]; then
+	ln -s -- "$moddir" /lib/modules/current
+fi
