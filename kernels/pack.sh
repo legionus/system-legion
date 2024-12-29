@@ -16,6 +16,23 @@ print_path() {
 	echo "** $prefix: $name [$size] ($checksum)" >&2
 }
 
+pack_modules() {
+	local outdir i moddir
+
+	i="$1"; shift
+
+	outdir="/.host/out/kernel-$i"
+	mkdir -p -- "$outdir"
+
+	moddir=lib/modules
+	[ ! -L lib ] || moddir="$(readlink lib)/modules"
+
+	tar --numeric-owner "$@" \
+		--xattrs \
+		-cf - "$moddir/$i" |
+		sqfstar -b 1M -comp xz "$outdir/$modname"
+}
+
 pack_kernel() {
 	local outdir i vmlinuz initrd flavour moddir
 
@@ -29,7 +46,6 @@ pack_kernel() {
 		flavour="${i%-*}"
 		flavour="${flavour#*-}"
 	fi
-
 
 	echo packing kernel "$i" >&2
 
@@ -46,19 +62,12 @@ pack_kernel() {
 	ln -snf vmlinuz-"$i"    "$outdir"/vmlinuz
 	ln -snf initrd-"$i".img "$outdir"/initrd.img
 
-	moddir=lib/modules
-	[ ! -L lib ] || moddir="$(readlink lib)/modules"
+	pack_modules "$i" "$@"
 
-	tar --numeric-owner "$@" \
-		--xattrs \
-		-cf - "$moddir/$i" |
-		sqfstar -b 1M -comp xz "$outdir/$modname"
-
-	print_path kernel "$outdir"/vmlinuz-"$i"
-	print_path initrd "$outdir"/initrd-"$i".img
+	print_path kernel  "$outdir"/vmlinuz-"$i"
+	print_path initrd  "$outdir"/initrd-"$i".img
 	print_path modules "$outdir/$modname"
 }
-
 
 cd /.image
 
@@ -70,6 +79,29 @@ if [ -s ./.SOURCE_DATE_EPOCH ]; then
 fi
 
 found=
+
+for i in boot/EFI/Linux/*.efi; do
+	[ -e "$i" ] || continue
+
+	n="${i##*/}"
+
+	version="${n#*-}"
+	version="${version%.efi}"
+
+	outdir="/.host/out/kernel-$version"
+	mkdir -p -- "$outdir"
+
+	cp -f -- "$i" "$outdir/linux-$version.efi"
+	pack_modules "$version" "$@"
+
+	print_path "uefi stub" "$outdir/linux-$version.efi"
+	print_path modules     "$outdir/$modname"
+
+	found=1
+done
+
+[ -z "$found" ] ||
+	exit 0
 
 for i in /lib/modules/*; do
 	[ -e "$i" ] || continue

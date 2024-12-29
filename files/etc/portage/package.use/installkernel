@@ -1,1 +1,1 @@
-sys-kernel/installkernel make-initrd -dracut
+sys-kernel/installkernel make-initrd uki -dracut

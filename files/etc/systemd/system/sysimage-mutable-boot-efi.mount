@@ -1,0 +1,13 @@
+[Unit]
+Documentation=man:fstab(5)
+Before=local-fs.target
+Requires=systemd-fsck@dev-disk-by\x2dlabel-EFI.service
+After=systemd-fsck@dev-disk-by\x2dlabel-EFI.service
+After=blockdev@dev-disk-by\x2dlabel-EFI.target
+RequiresMountsFor=/sysimage/mutable
+
+[Mount]
+What=/dev/disk/by-label/EFI
+Where=/sysimage/mutable/boot/efi
+Type=vfat
+Options=relatime
