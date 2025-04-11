@@ -7,6 +7,7 @@ IMAGENAME = system-gentoo-$(CURDATE).star
 INSTRUMENTAL_FILES = $(CURDIR)/instrumental-files
 INSTRUMENTAL_PACKAGES2 = sys-fs/squashfs-tools
 
+IMAGE_ORDERED_PACKAGES = $(CURDIR)/packages.ordered
 IMAGE_PACKAGES = $(CURDIR)/packages
 
 INFO_USER_CREATE = legion

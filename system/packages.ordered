@@ -1,0 +1,8 @@
+app-alternatives/awk
+app-alternatives/bzip2
+app-alternatives/gzip
+app-alternatives/lex
+app-alternatives/sh
+app-alternatives/tar
+app-alternatives/yacc
+app-portage/elt-patches
