@@ -21,7 +21,7 @@ for s in ${INFO_SYSTEMD_MASK_SERVICES-}; do
 	systemctl mask "$s"
 done
 
-if [ -n "$have_timesyncd" ]; then
+if [ -n "$have_resolved" ]; then
 	ln -fvs /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 fi
 
