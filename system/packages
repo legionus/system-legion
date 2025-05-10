@@ -9,6 +9,7 @@ app-emulation/qemu
 app-eselect/eselect-repository
 app-misc/mc
 app-misc/tmux
+app-office/calcurse
 app-portage/gentoolkit
 app-shells/bash
 app-shells/bash-completion
@@ -111,3 +112,4 @@ x11-libs/libnotify
 x11-misc/xcb
 x11-misc/xdg-utils
 x11-misc/yad
+x11-themes/gnome-themes-standard

@@ -1,4 +1,5 @@
-=sys-kernel/make-initrd-9999
+sys-kernel/make-initrd
+sys-kernel/installkernel::make-initrd-overlay
 dev-lang/perl
 sys-apps/systemd
 sys-firmware/nvidia-firmware
