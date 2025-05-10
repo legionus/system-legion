@@ -5,7 +5,9 @@ SYSIMAGE_TAG_PREFIX = system
 IMAGENAME = system-gentoo-$(CURDATE).star
 
 INSTRUMENTAL_FILES = $(CURDIR)/instrumental-files
-INSTRUMENTAL_PACKAGES2 = sys-fs/squashfs-tools
+INSTRUMENTAL_PACKAGES2 = \
+	dev-vcs/git \
+	sys-fs/squashfs-tools
 
 IMAGE_ORDERED_PACKAGES = $(CURDIR)/packages.ordered
 IMAGE_PACKAGES = $(CURDIR)/packages
