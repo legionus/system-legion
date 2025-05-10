@@ -1,0 +1,10 @@
+[Unit]
+Documentation=man:fstab(5)
+Before=local-fs.target
+RequiresMountsFor=/sysimage/cache
+
+[Mount]
+What=/sysimage/cache/gentoo/edb
+Where=/var/cache/edb
+Type=none
+Options=bind

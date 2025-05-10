@@ -1,0 +1,10 @@
+[Unit]
+Documentation=man:fstab(5)
+Before=local-fs.target
+RequiresMountsFor=/sysimage/cache
+
+[Mount]
+What=/sysimage/cache/gentoo/binpkgs
+Where=/var/cache/binpkgs
+Type=none
+Options=bind
