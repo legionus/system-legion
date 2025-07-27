@@ -19,5 +19,11 @@ IMAGE_VAR_EMERGE_QUIET = true
 IMAGE_VAR_EMERGE_JOBS = 12
 IMAGE_VAR_EMERGE_IGNORE_COLLISIONS = 1
 
+INSTRUMENTAL_FILES = $(CURDIR)/../instrumental-files
+INSTRUMENTAL_PACKAGES2 = \
+	dev-vcs/git \
+	sys-fs/squashfs-tools \
+	sys-fs/btrfs-progs
+
 IMAGE_PREFILES = $(CURDIR)/../files
 COPY_TREE      = $(CURDIR)/../files
