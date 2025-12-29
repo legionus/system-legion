@@ -1,3 +1,6 @@
+# x11-drivers/nvidia-drivers
+acct-group/gdm
+acct-user/gdm
 app-admin/eselect
 app-admin/logrotate
 app-arch/cpio
@@ -15,6 +18,9 @@ app-shells/bash
 app-shells/bash-completion
 app-shells/dash
 app-shells/fzf
+app-shells/loksh
+app-shells/mksh
+app-shells/powerline-go
 app-vim/vim-spell-en
 app-vim/vim-spell-ru
 dev-build/autoconf-archive
@@ -42,11 +48,14 @@ dev-python/pylint
 dev-python/python-lsp-server
 dev-python/tabulate
 dev-python/termcolor
+dev-util/bindgen
+dev-util/dialog
 dev-util/kup
 dev-util/perf
 dev-util/shellcheck-bin
 dev-util/wayland-scanner
 dev-vcs/git
+gnome-extra/yad
 gui-apps/foot
 gui-apps/fuzzel
 gui-apps/mako
@@ -57,6 +66,7 @@ gui-apps/wl-clipboard
 gui-libs/egl-gbm
 gui-libs/egl-wayland
 gui-libs/xdg-desktop-portal-wlr
+gui-wm/cage
 gui-wm/sway
 llvm-core/clang
 mail-client/mutt
@@ -72,7 +82,7 @@ net-fs/sshfs
 net-libs/libtirpc
 net-mail/fetchmail
 net-mail/isync
-net-misc/freerdp
+net-mail/notmuch
 net-misc/openssh
 sys-apps/busybox
 sys-apps/flatpak
@@ -92,6 +102,7 @@ sys-auth/seatd
 sys-devel/bc
 sys-devel/binutils
 sys-devel/bison
+sys-devel/crossdev
 sys-devel/flex
 sys-firmware/nvidia-firmware
 sys-fs/squashfs-tools
@@ -107,9 +118,7 @@ virtual/rust
 www-client/elinks
 www-client/firefox:rapid
 x11-base/xwayland
-x11-drivers/nvidia-drivers
 x11-libs/libnotify
 x11-misc/xcb
 x11-misc/xdg-utils
-x11-misc/yad
 x11-themes/gnome-themes-standard

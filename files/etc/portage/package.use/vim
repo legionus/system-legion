@@ -1,1 +1,1 @@
-app-editors/vim cscope terminal vim-pager gpm lua -tcl
+app-editors/vim terminal vim-pager gpm lua python -tcl -sound -X

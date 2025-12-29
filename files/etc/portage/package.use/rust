@@ -1,1 +1,1 @@
-dev-lang/rust rustfmt system-bootstrap system-llvm
+dev-lang/rust rustfmt clippy rust-src system-bootstrap system-llvm

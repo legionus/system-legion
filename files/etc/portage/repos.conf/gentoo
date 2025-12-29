@@ -1,5 +1,9 @@
 [gentoo]
 location = /var/db/repos/gentoo
 sync-type = git
-sync-uri = https://github.com/gentoo/gentoo.git
+sync-uri = https://github.com/gentoo-mirror/gentoo.git
 auto-sync = yes
+
+# https://wiki.gentoo.org/wiki/Project:Portage/Repository_verification
+#sync-git-verify-commit-signature = false
+#sync-openpgp-key-refresh = true

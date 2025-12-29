@@ -9,10 +9,17 @@ all: kernels system
 clean:
 	make -C kernels clean
 	make -C system clean
+	make -C repos clean
 
 reset:
 	make -C kernels reset-image
 	make -C system  reset-image
+
+LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
+repos:
+	@echo "Processing '$@' and logs in the $(LOGFILE) ..."
+	@set -o errexit -o pipefail; \
+	  make -C repos local-prepare 2>&1 | tee "$(LOGFILE)"
 
 LOGFILE = $(LOGDIR)/$(CURNAME)-$@.log
 kernels:
@@ -36,6 +43,11 @@ sync:
 	@for d in $(HOME)/sysimage/stateless/kernel-*; do \
 	  [ ! -e "$$d" ] || rmdir -- "$$d"; \
 	done
+
+.PHONY: emerge-update
+
+emerge-update:
+	@make -C repos
 
 .PHONY: update-latest-system
 

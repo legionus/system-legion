@@ -7,4 +7,4 @@ sys-kernel/gentoo-kernel
 sys-kernel/linux-firmware
 sys-libs/glibc
 sys-libs/libxcrypt
-x11-drivers/nvidia-drivers
+# x11-drivers/nvidia-drivers

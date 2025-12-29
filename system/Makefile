@@ -26,6 +26,7 @@ INFO_SYSTEMD_ENABLE_SERVICES = \
 INFO_SYATEMD_DEFAULT_TARGET = multi-user.target
 
 IMAGE_VAR_SKIP_KERNEL = 1
+#PACK_IMAGE = $(CURDIR)/pack.sh
 
 all: copy-tree build-image apply-patches run-scripts pack-image
 #all: build-image apply-patches

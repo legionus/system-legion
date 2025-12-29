@@ -23,5 +23,5 @@ UKI_CMDLINE = \
 	mountfs=dev \
 	mountfs=pipe1/sysimage/stateless/local-latest.star \
 	mountfs=pipe1/sysimage/stateless/kernel-$(KERNEL)/kmodules.star \
-	mountfs=pipe1/sysimage/stateless/system-stable.star \
+	mountfs=lastver:pipe1/sysimage/stateless/system-gentoo-*.star \
 	overlayfs=pipe2,pipe3,pipe4

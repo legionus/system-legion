@@ -1,10 +1,3 @@
 #!/bin/sh -efu
 
-{
-	echo C.UTF-8 UTF-8
-	[ ! -e /etc/locale.gen ] ||
-		grep -E '^[^#]+' /etc/locale.gen ||:
-} | sort -u |
-while read -r name; do
-	locale-gen --generate "$name"
-done
+locale-gen --config /etc/locale.gen
